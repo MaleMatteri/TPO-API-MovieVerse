@@ -18,6 +18,8 @@ import {
   AppConversionRates,
 } from '../sections/@dashboard/app';
 
+import MovieCard from '../components/movie-cards/index.js';
+
 // ----------------------------------------------------------------------
 
 export default function DashboardAppPage() {
@@ -26,7 +28,7 @@ export default function DashboardAppPage() {
   return (
     <>
       <Helmet>
-        <title> Dashboard | Minimal UI </title>
+        <title> Home | MovieVerse </title>
       </Helmet>
 
       <Container maxWidth="xl">
@@ -36,7 +38,9 @@ export default function DashboardAppPage() {
 
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Weekly Sales" total={714000} icon={'ant-design:android-filled'} />
+            <MovieCard 
+               image="../../assets/mamma_mia.jpg"
+               ratingValue={5} />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
