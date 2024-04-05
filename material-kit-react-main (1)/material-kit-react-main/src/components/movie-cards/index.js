@@ -6,26 +6,22 @@ import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
 import { Rating } from '@mui/material';
 import PropTypes from 'prop-types';
-import mammaMiaImage from 'src/assets/mamma_mia.jpg';
 
 
-function MovieCard({ratingValue}) {
+function MovieCard({title, image, ratingValue}) {
+  console.log('Image:', image); 
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{maxWidth: 350, height: '100%' }}>
       <CardActionArea>
         <CardMedia
           component="img"
           height="300"
-          image={mammaMiaImage}
+          image={image}
           alt="mamma mia"
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            Mamma mia (2008)
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Lizards are a widespread group of squamate reptiles, with over 6,000
-            species, ranging across all continents except Antarctica
+            {title}
           </Typography>
           <Rating name="disabled" value={ratingValue} disabled />
         </CardContent>

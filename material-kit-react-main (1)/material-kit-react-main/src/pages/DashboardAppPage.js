@@ -19,6 +19,8 @@ import {
 } from '../sections/@dashboard/app';
 
 import MovieCard from '../components/movie-cards/index.js';
+import { mamma_mia, mamma_mia2, one_day, tokyo_drift } from 'src/assets/pictures';
+ 
 
 // ----------------------------------------------------------------------
 
@@ -39,19 +41,30 @@ export default function DashboardAppPage() {
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={3}>
             <MovieCard
+              title = 'Mamma mia (2008)'
+              image={mamma_mia}
+              ratingValue={5}/>
+          </Grid>
+          
+          <Grid item xs={12} sm={6} md={3}>
+            <MovieCard
+              title = 'Mamma mia: Here we go again (2018)'
+              image={mamma_mia2}
               ratingValue={5}/>
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="New Users" total={1352831} color="info" icon={'ant-design:apple-filled'} />
+            <MovieCard
+              title = 'Tokyo Drift (2006)'
+              image={tokyo_drift}
+              ratingValue={5}/>
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Item Orders" total={1723315} color="warning" icon={'ant-design:windows-filled'} />
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Bug Reports" total={234} color="error" icon={'ant-design:bug-filled'} />
+            <MovieCard
+              title = 'One Day (2024)'
+              image={one_day}
+              ratingValue={5}/>
           </Grid>
 
           <Grid item xs={12} md={6} lg={8}>
