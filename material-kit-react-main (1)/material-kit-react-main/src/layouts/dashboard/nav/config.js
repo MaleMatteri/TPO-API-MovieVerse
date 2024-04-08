@@ -1,5 +1,6 @@
 // component
 import SvgColor from '../../../components/svg-color';
+import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 
 // ----------------------------------------------------------------------
 
@@ -7,7 +8,7 @@ const icon = (name) => <SvgColor src={`/assets/icons/navbar/${name}.svg`} sx={{ 
 
 const navConfig = [
   {
-    title: 'dashboard',
+    title: 'home',
     path: '/dashboard/app',
     icon: icon('ic_analytics'),
   },
@@ -22,7 +23,7 @@ const navConfig = [
     icon: icon('ic_cart'),
   },
   {
-    title: 'blog',
+    title: 'Hola',
     path: '/dashboard/blog',
     icon: icon('ic_blog'),
   },
