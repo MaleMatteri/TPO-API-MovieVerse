@@ -14,6 +14,7 @@ import Scrollbar from '../../../components/scrollbar';
 import NavSection from '../../../components/nav-section';
 //
 import navConfig from './config';
+import './index.css';
 
 // ----------------------------------------------------------------------
 
@@ -53,16 +54,16 @@ export default function Nav({ openNav, onCloseNav }) {
         '& .simplebar-content': { height: 1, display: 'flex', flexDirection: 'column' },
       }}
     >
-      <Box sx={{ mb: 5, px: 2.5, py: 3, display: 'inline-flex' }}>
+      <Box sx={{ mb: 5, px: 2.5, py: 3, display: 'inline-flex' }} className='Box'>
         <Logo src="/assets/Logo/LogoMovieVerse_Crop.png" />
       </Box>
 
-      <Box sx={{ mb: 5, mx: 2.5 }}>
+      <Box sx={{ mb: 5, mx: 2.5 }} className='Box'>
         <Link underline="none">
           <StyledAccount>
             <Avatar src={account.photoURL} alt="photoURL" />
 
-            <Box sx={{ ml: 2 }}>
+            <Box sx={{ ml: 2 }} >
               <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
                 {account.displayName}
               </Typography>
@@ -75,9 +76,9 @@ export default function Nav({ openNav, onCloseNav }) {
         </Link>
       </Box>
 
-      <NavSection data={navConfig} />
+      <NavSection data={navConfig} className='Box'simplebar-content-wrapper/>
 
-      <Box sx={{ flexGrow: 1 }} />
+      <Box sx={{ flexGrow: 1 }} className='Box' />
     </Scrollbar>
   );
 
@@ -96,7 +97,7 @@ export default function Nav({ openNav, onCloseNav }) {
           PaperProps={{
             sx: {
               width: NAV_WIDTH,
-              bgcolor: 'background.default',
+              bgcolor: '#00305A',
               borderRightStyle: 'dashed',
             },
           }}
