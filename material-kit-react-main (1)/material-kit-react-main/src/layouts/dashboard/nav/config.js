@@ -1,36 +1,30 @@
 // component
+import { MovieFilterRounded } from '@mui/icons-material';
 import SvgColor from '../../../components/svg-color';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
+import MovieFilterRoundedIcon from '@mui/icons-material/MovieFilterRounded';
+import VpnKeyRoundedIcon from '@mui/icons-material/VpnKeyRounded';
 
 // ----------------------------------------------------------------------
 
 const icon = (name) => <SvgColor src={`/assets/icons/navbar/${name}.svg`} sx={{ width: 1, height: 1 }} />;
 
+
 const navConfig = [
   {
     title: 'home',
     path: '/dashboard/app',
-    icon: icon('ic_analytics'),
+    icon: <HomeRoundedIcon sx={{ width: 1, height: 1 }}/> ,
   },
   {
-    title: 'user',
-    path: '/dashboard/user',
-    icon: icon('ic_user'),
-  },
-  {
-    title: 'product',
+    title: 'My lists',
     path: '/dashboard/products',
-    icon: icon('ic_cart'),
-  },
-  {
-    title: 'Hola',
-    path: '/dashboard/blog',
-    icon: icon('ic_blog'),
+    icon: <MovieFilterRoundedIcon sx={{ width: 1, height: 1 }}/>
   },
   {
     title: 'login',
     path: '/login',
-    icon: icon('ic_lock'),
+    icon: <VpnKeyRoundedIcon sx={{ width: 1, height: 1 }}/>,
   },
   {
     title: 'Not found',
