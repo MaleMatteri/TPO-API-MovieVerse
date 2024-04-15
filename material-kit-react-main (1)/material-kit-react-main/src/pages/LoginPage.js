@@ -60,20 +60,20 @@ export default function LoginPage() {
 
         {mdUp && (
           <StyledSection>
-            <Typography variant="h3" sx={{ color: 'white',px: 5, mt: 10, mb: 5 }}>
+            <Typography variant="h3" sx={{ color: 'white', px: 5, mt: 10, mb: 5 }}>
               Hi, Welcome Back
             </Typography>
             <img src="/assets/illustrations/LogoMovieVerse_login.png" alt="login" />
           </StyledSection>
         )}
 
-        <Container maxWidth="sm">
+        <Container maxWidth="sm" sx={{ backgroundColor: mdUp ? 'inherit' : '#00305A' }}>
           <StyledContent>
-            <Typography variant="h4" gutterBottom>
+            <Typography variant="h4" gutterBottom sx={{ color: mdUp ? 'inherit' : 'white' }}>
               Sign in to MovieVerse
             </Typography>
 
-            <Typography variant="body2" sx={{ mb: 5 }}>
+            <Typography variant="body2" sx={{ mb: 5, color: mdUp ? 'inherit' : 'white' }}>
               Don’t have an account? {''}
               <Link variant="subtitle2">Get started</Link>
             </Typography>
@@ -105,3 +105,5 @@ export default function LoginPage() {
     </>
   );
 }
+
+

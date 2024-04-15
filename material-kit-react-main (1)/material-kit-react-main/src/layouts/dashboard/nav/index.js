@@ -112,7 +112,10 @@ export default function Nav({ openNav, onCloseNav }) {
             keepMounted: true,
           }}
           PaperProps={{
-            sx: { width: NAV_WIDTH },
+            sx: { width: NAV_WIDTH,
+            bgcolor: '#00305A', // Cambia al color azul el fondo
+            borderRightStyle: 'dashed',
+            }
           }}
         >
           {renderContent}
