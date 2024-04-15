@@ -55,7 +55,7 @@ export default function Nav({ openNav, onCloseNav }) {
       }}
     >
       <Box sx={{ mb: 5, px: 2.5, py: 3, display: 'inline-flex' }} className='Box'>
-        <Logo src="/assets/Logo/LogoMovieVerse_Crop.png" />
+        <Logo src="/assets/Logo/MovieVerse.png" />
       </Box>
 
       <Box sx={{ mb: 5, mx: 2.5 }} className='Box'>
