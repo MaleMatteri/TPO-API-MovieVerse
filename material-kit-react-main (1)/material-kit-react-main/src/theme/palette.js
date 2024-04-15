@@ -14,6 +14,7 @@ const GREY = {
   700: '#454F5B',
   800: '#212B36',
   900: '#161C24',
+  1000: '#00305A',
 };
 
 const PRIMARY = {
@@ -83,12 +84,14 @@ const palette = {
   text: {
     primary: GREY[800],
     secondary: GREY[600],
+    third: GREY[0],
     disabled: GREY[500],
   },
   background: {
     paper: '#fff',
     default: GREY[100],
     neutral: GREY[200],
+    azul: GREY[1000],
   },
   action: {
     active: GREY[600],
