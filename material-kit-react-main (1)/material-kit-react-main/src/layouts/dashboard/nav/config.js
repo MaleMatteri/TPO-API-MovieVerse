@@ -1,5 +1,4 @@
 // component
-import { MovieFilterRounded } from '@mui/icons-material';
 import SvgColor from '../../../components/svg-color';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import MovieFilterRoundedIcon from '@mui/icons-material/MovieFilterRounded';
