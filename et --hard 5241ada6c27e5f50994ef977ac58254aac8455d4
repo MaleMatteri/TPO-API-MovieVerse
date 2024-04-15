@@ -1,0 +1,90 @@
+[33mcommit 5241ada6c27e5f50994ef977ac58254aac8455d4[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Male Matteri <mjmatteri@gmail.com>
+Date:   Mon Apr 15 12:22:28 2024 -0300
+
+    Eliminacion de Popovers y modifcacion de texto login
+    
+    Se modifico en el login el texto de bienvenida y se elimino del dashboard los popover de idiomas y de notificaciones.
+
+[33mcommit 555f502e597813e7c9b92f9834d7ca6c629193e8[m
+Author: Male Matteri <mjmatteri@gmail.com>
+Date:   Mon Apr 15 12:13:37 2024 -0300
+
+    Commit de prueba
+    
+    Commit de prueba porque se le rompio a meli
+
+[33mcommit 9c150de5d9bc9699345600a85349eddadcf7e237[m
+Author: Male Matteri <mjmatteri@gmail.com>
+Date:   Mon Apr 15 11:57:56 2024 -0300
+
+    Modificacion de los iconos
+    
+    Se modificaron los iconos y los textos de la navbar.
+
+[33mcommit 3b6929fc832c06d7aa59aa9fc249a106357d8c04[m
+Author: MeliDumanski <melinadumanski@gmail.com>
+Date:   Mon Apr 15 10:45:12 2024 -0300
+
+    cambio de colores
+    
+    cambio de colores en nav (letras en blanco y fondo azul).
+    cambio de colores en login (letras en blanco y fondo azul).
+    Logo agregado.
+
+[33mcommit 3b63bdb0e518e95b2fc4390dbaa111da986d1974[m
+Author: Male Matteri <mjmatteri@gmail.com>
+Date:   Fri Apr 12 20:19:02 2024 -0300
+
+    Modificacion del color de fondo
+    
+    Se modifico el color de fondo de la barra de navegacion
+
+[33mcommit b2fd53574e6362e12794c0391955c949e9268871[m
+Author: Male Matteri <mjmatteri@gmail.com>
+Date:   Tue Apr 9 15:55:33 2024 -0300
+
+    Logo
+    
+    Se modificó el logo y se agregpo un archivo css para poder estilizarlo pisando los estilos de la pagina.
+
+[33mcommit 6c81b1c44a21ee60a10507317b071b1975e35fee[m
+Author: Male Matteri <mjmatteri@gmail.com>
+Date:   Mon Apr 8 12:38:37 2024 -0300
+
+    Card carusel y modificaciones en la navbar
+    
+    Se implementó un carusel para contener las cards de la películas.
+    Por otro lado, se empezó a modificar la navbar. Por el momento, únicamente se cambiaron los nombres de las páginas.
+
+[33mcommit c653d574aa884b8b3d617fb988bc66b18354360d[m
+Author: Male Matteri <mjmatteri@gmail.com>
+Date:   Fri Apr 5 19:20:22 2024 -0300
+
+    Movie Cards
+    
+    Se modificó el código para que reciba las características de las películas por parámetro para poder reutilizar el componente.
+
+[33mcommit c2c4b53844554f4e23094b7e5ad2eafea449e971[m
+Author: Male Matteri <mjmatteri@gmail.com>
+Date:   Fri Apr 5 16:38:41 2024 -0300
+
+    Movie card - Image
+    
+    Se logro hacer funcionar la movie card con la imagen hardcodeada.
+
+[33mcommit 54028af31624b603f530ef6ad07fcb0577861587[m
+Author: Male Matteri <mjmatteri@gmail.com>
+Date:   Tue Apr 2 16:59:15 2024 -0300
+
+    Card creation
+    
+    Started to develop the movie cards. The images do not work yet.
+
+[33mcommit 6923f7abbc6986d770fd82895ddd72142da665f5[m
+Author: Male Matteri <mjmatteri@gmail.com>
+Date:   Mon Apr 1 16:59:19 2024 -0300
+
+    Template uploaded
+    
+    Uploaded the free template in which we will be building our project.
