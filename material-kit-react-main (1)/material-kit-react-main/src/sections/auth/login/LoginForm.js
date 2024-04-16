@@ -5,6 +5,8 @@ import { Link, Stack, IconButton, InputAdornment, TextField, Checkbox } from '@m
 import { LoadingButton } from '@mui/lab';
 // components
 import Iconify from '../../../components/iconify';
+import useResponsive from '../../../hooks/useResponsive'; // tengo que ver como hacer que diferencie el modo mobile, para cambiar el estilo de sus cuadros de texto.
+
 
 // ----------------------------------------------------------------------
 
