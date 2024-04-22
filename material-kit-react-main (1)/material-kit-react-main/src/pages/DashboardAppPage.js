@@ -2,11 +2,12 @@ import { Helmet } from 'react-helmet-async';
 import { faker } from '@faker-js/faker';
 // @mui
 import { useTheme } from '@mui/material/styles';
-import { Grid, Container, Typography } from '@mui/material';
+import { Box, Container, Typography } from '@mui/material';
 // sections
 
 import MovieCard from '../components/movie-cards/index.js';
 import { mamma_mia, mamma_mia2, one_day, tokyo_drift } from 'src/assets/pictures';
+import FloatingActionButtons from '../components/new-list-button/index.js';
 
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
@@ -17,7 +18,7 @@ const responsive = {
   },
   desktop: {
     breakpoint: { max: 3000, min: 1024 },
-    items: 3
+    items: 4
   },
   tablet: {
     breakpoint: { max: 1024, min: 464 },
@@ -43,6 +44,7 @@ export default function DashboardAppPage() {
       </Helmet>
 
       <Container maxWidth="xl">
+        <Box sx={{ position: 'relative', minHeight: '100vh' }}>
         <Typography variant="h4" sx={{ mb: 5 }}>
           Hi, Welcome back
         </Typography>
@@ -51,19 +53,19 @@ export default function DashboardAppPage() {
         </Typography>
         <Carousel responsive={responsive} >
           <MovieCard
-                title = 'Mamma mia (2008)'
+                title = 'Mamma mia'
                 image={mamma_mia}
                 ratingValue={5}/>
           <MovieCard
-                title = 'Mamma mia: Here we go again (2018)'
+                title = 'Mamma mia: Here we go again'
                 image={mamma_mia2}
                 ratingValue={5}/>
           <MovieCard
-                title = 'Tokyo Drift (2006)'
+                title = 'Tokyo Drift'
                 image={tokyo_drift}
                 ratingValue={5}/>
           <MovieCard
-                title = 'One day (2024)'
+                title = 'One day'
                 image={one_day}
                 ratingValue={5}/>
         </Carousel>
@@ -88,6 +90,17 @@ export default function DashboardAppPage() {
                 image={mamma_mia}
                 ratingValue={5}/>
         </Carousel>
+        <Box
+            sx={{
+              position: 'fixed',
+              bottom: theme.spacing(2),
+              right: theme.spacing(2),
+              zIndex: 1000
+            }}
+          >
+            <FloatingActionButtons />
+          </Box>
+        </Box>
       </Container>
     </>
   );
