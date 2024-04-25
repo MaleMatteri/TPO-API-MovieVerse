@@ -3,7 +3,7 @@ import React from 'react';
 function RegisterPage() {
   return (
     <div>
-      {/* Contenido de la página de registro */}
+      PAGINA DE REGISTRO 
     </div>
   );
 }

@@ -15,6 +15,8 @@ export default function LoginForm() {
   const [emailError, setEmailError] = useState(false); // Estado para indicar si hay un error en el campo de email
   const [passwordError, setPasswordError] = useState(false); // Estado para indicar si hay un error en el campo de contraseña
 
+  const isMobile = useResponsive('down', 'sm'); // Check if the device is mobile
+
   const handleClick = () => {
     if (email.trim() === '' || password.trim() === '') {
       setEmailError(email.trim() === ''); // Establecer el estado de error para el campo de email
@@ -37,11 +39,9 @@ export default function LoginForm() {
           error={emailError} // Aplicar estilo de error al campo de email si hay un error
           helperText={emailError ? 'Por favor, complete este campo' : ' '} // Espacio reservado para mantener la altura del campo
           InputProps={{
-            style: { color: 'white' } // Solo cambiar el color del texto en modo móvil
+            style: { color: isMobile ? 'white' : 'black' } // Change text color based on mobile mode
           }}
         />
-
-
         <TextField
           name="password"
           label="Password"
@@ -52,6 +52,7 @@ export default function LoginForm() {
           helperText={passwordError ? 'Por favor, complete este campo' : ' '} // Espacio reservado para mantener la altura del campo
           sx={{ whiteSpace: 'nowrap', textOverflow: 'ellipsis' }} // Evitar que el texto se divida y mostrar puntos suspensivos si no cabe en el campo
           InputProps={{
+            style: { color: isMobile ? 'white' : 'black' }, // Change text color based on mobile mode
             endAdornment: (
               <InputAdornment position="end">
                 <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">

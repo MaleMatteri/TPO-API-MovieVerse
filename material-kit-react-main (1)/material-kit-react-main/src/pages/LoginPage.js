@@ -9,7 +9,7 @@ import Logo from '../components/logo';
 import Iconify from '../components/iconify';
 // sections
 import { LoginForm } from '../sections/auth/login';
-import RegisterPage from './RegisterPage';
+import { Link as RouterLink } from 'react-router-dom';
 
 // ----------------------------------------------------------------------
 
@@ -76,8 +76,8 @@ export default function LoginPage() {
 
             <Typography variant="body2" sx={{ mb: 5, color: mdUp ? 'inherit' : 'white' }}>
               Don’t have an account? {''}
-              <Link to="/RegisterPage" variant="subtitle2"> 
-                ¡Regístrate ahora!
+              <Link to="/register" component={RouterLink} variant="subtitle2"> 
+                Get started!
               </Link>
             </Typography>
 
