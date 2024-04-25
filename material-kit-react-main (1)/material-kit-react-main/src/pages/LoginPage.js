@@ -9,6 +9,7 @@ import Logo from '../components/logo';
 import Iconify from '../components/iconify';
 // sections
 import { LoginForm } from '../sections/auth/login';
+import RegisterPage from './RegisterPage';
 
 // ----------------------------------------------------------------------
 
@@ -39,7 +40,7 @@ const StyledContent = styled('div')(({ theme }) => ({
 }));
 
 // ----------------------------------------------------------------------
-
+// no funciona <Link to="/register" variant="subtitle2"> 
 export default function LoginPage() {
   const mdUp = useResponsive('up', 'md');
 
@@ -75,7 +76,9 @@ export default function LoginPage() {
 
             <Typography variant="body2" sx={{ mb: 5, color: mdUp ? 'inherit' : 'white' }}>
               Don’t have an account? {''}
-              <Link variant="subtitle2">Get started</Link>
+              <Link to="/RegisterPage" variant="subtitle2"> 
+                ¡Regístrate ahora!
+              </Link>
             </Typography>
 
             <LoginForm />

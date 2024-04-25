@@ -45,6 +45,3 @@ export default function Router() {
 
   return routes;
 }
-
-
-
