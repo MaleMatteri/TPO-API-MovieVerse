@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Link, Stack, IconButton, InputAdornment, TextField, Checkbox } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import Iconify from '../../../components/iconify';
-import useResponsive from '../../../hooks/useResponsive'; // tengo que ver como hacer que diferencie el modo mobile, para cambiar el estilo de sus cuadros de texto.
+import useResponsive from '../../../hooks/useResponsive';
 
 // ----------------------------------------------------------------------
 
@@ -63,13 +63,13 @@ export default function LoginForm() {
           }}
         />
       </Stack>
-
-      <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
+      
+      <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>  
         <Checkbox name="remember" label="Remember me" />
         <Link variant="subtitle2" underline="hover">
           Forgot password?
         </Link>
-      </Stack>
+      </Stack>  
 
       <LoadingButton fullWidth size="large" variant="contained" onClick={handleClick}>
         Login
@@ -77,3 +77,4 @@ export default function LoginForm() {
     </>
   );
 }
+// consultar si hay que sacar forgot password -- <LoadingButton fullWidth size="large" variant="contained" sx={{ my: 4 }} onClick={handleClick}>
