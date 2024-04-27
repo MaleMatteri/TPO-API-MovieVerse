@@ -1,25 +1,28 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 
-export default function SelectVariants() {
-  const [list, setList] = useState('');
-
-  const handleChange = (event) => setList(event.target.value);
+const SelectVariants = ({ value, onChange, movie }) => {
+  const handleChange = (event) => {
+    console.log("Selected value:", event.target.value);
+    console.log("Movie:", movie);
+    onChange(event.target.value, movie);
+  };
 
   return (
-    <FormControl variant="outlined" sx={{ m: 1, minWidth: 120}}>
+    <FormControl variant="outlined" sx={{ m: 1, minWidth: 120 }}>
       <InputLabel>List</InputLabel>
       <Select
-        value={list}
+        value={value}
         onChange={handleChange}
         label="List"
       >
         <MenuItem value=""><em>None</em></MenuItem>
-        <MenuItem value={10}>Watched</MenuItem>
-        <MenuItem value={20}>Watching</MenuItem>
-        <MenuItem value={30}>My favourites</MenuItem>
-        <MenuItem value={40}>Wish list</MenuItem>
+        <MenuItem value="watching">Watching</MenuItem>
+        <MenuItem value="watched">Watched</MenuItem>
+        <MenuItem value="favorites">Favorites</MenuItem>
       </Select>
     </FormControl>
   );
-}
+};
+
+export default SelectVariants;
