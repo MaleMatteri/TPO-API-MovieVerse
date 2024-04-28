@@ -3,6 +3,7 @@ import SvgColor from '../../../components/svg-color';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import MovieFilterRoundedIcon from '@mui/icons-material/MovieFilterRounded';
 import VpnKeyRoundedIcon from '@mui/icons-material/VpnKeyRounded';
+import SearchIcon from '@mui/icons-material/Search';
 
 // ----------------------------------------------------------------------
 
@@ -18,6 +19,11 @@ const navConfig = [
     title: 'My lists',
     path: '/dashboard/products',
     icon: <MovieFilterRoundedIcon sx={{ width: 1, height: 1 }}/>
+  },
+  {
+    title: 'Search',
+    path: '/dashboard/search',
+    icon: <SearchIcon sx={{ width: 1, height: 1 }}/>
   },
   {
     title: 'login',

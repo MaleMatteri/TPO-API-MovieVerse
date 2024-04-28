@@ -44,10 +44,6 @@ export default function RegisterForm() {
       setPasswordSuccess(true); 
   };
 
-  const handleClick_Login = () => {
-    console.log('Iniciar sesión con:', email, password);
-    navigate('/login', { replace: true });
-  }
 
   return (
     <>
@@ -112,9 +108,6 @@ export default function RegisterForm() {
         Sing up
       </LoadingButton>
 
-      <LoadingButton fullWidth size="large" variant="contained" sx={{ my: 1 }} onClick={handleClick_Login}>
-        Login
-      </LoadingButton>
     </>
   );
 }
