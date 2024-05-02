@@ -2,11 +2,12 @@ import React from 'react';
 import { Navigate, useRoutes } from 'react-router-dom';
 // Importa los componentes de las páginas
 import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage'; // Importa el componente RegisterPage
+import RegisterPage from './pages/RegisterPage';
 import DashboardLayout from './layouts/dashboard';
 import SimpleLayout from './layouts/simple';
 import BlogPage from './pages/BlogPage';
 import UserPage from './pages/UserPage';
+import SearchPage from './pages/SearchPage';
 import Page404 from './pages/Page404';
 import ProductsPage from './pages/ProductsPage';
 import DashboardAppPage from './pages/DashboardAppPage';
@@ -30,6 +31,7 @@ export default function Router() {
         { path: 'user', element: <UserPage /> },
         { path: 'products', element: <ProductsPage /> },
         { path: 'blog', element: <BlogPage /> },
+        { path: 'search', element: <SearchPage />}
       ],
     },
     {

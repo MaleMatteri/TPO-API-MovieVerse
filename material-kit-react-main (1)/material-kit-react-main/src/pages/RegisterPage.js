@@ -76,7 +76,7 @@ export default function RegisterPage() {
 
             <Typography variant="body2" sx={{ mb: 5, color: mdUp ? 'inherit' : 'white' }}>
               You have an account? {''}
-              <Link to="/login" component={RouterLink} variant="subtitle2"> 
+              <Link to='/login' component={RouterLink} variant="subtitle2"> 
                 Log in to your account!
               </Link>
             </Typography>
