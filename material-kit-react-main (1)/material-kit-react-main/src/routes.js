@@ -10,6 +10,7 @@ import UserPage from './pages/UserPage';
 import Page404 from './pages/Page404';
 import ProductsPage from './pages/ProductsPage';
 import DashboardAppPage from './pages/DashboardAppPage';
+import SearchPage from './pages/SearchPage';
 
 export default function Router() {
   const routes = useRoutes([
@@ -30,6 +31,7 @@ export default function Router() {
         { path: 'user', element: <UserPage /> },
         { path: 'products', element: <ProductsPage /> },
         { path: 'blog', element: <BlogPage /> },
+        { path: 'search', element: <SearchPage /> },
       ],
     },
     {

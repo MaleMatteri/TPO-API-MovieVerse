@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
-import { Button, CardActions } from '@mui/material';
+import { CardActions } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { Rating } from '@mui/material';
 import PropTypes from 'prop-types';
@@ -14,7 +14,8 @@ function MovieCard({ title, image, ratingValue, movieId, onAddToList }) {
 
   const handleListChange = (event) => {
     setSelectedList(event.target.value);
-    onAddToList(event.target.value);
+    const movie = { id: movieId, value: event.target.value, title, image, ratingValue }; // Include 'value' property
+    onAddToList(event.target.value, movie); // Pass movie details
   };
 
   return (
@@ -38,7 +39,7 @@ function MovieCard({ title, image, ratingValue, movieId, onAddToList }) {
       </CardContent>
       <div className="bottom-element">
         <CardActions>
-          <SelectVariants value={selectedList} onChange={handleListChange} />
+          <SelectVariants value={selectedList} onChange={handleListChange} movie={{ id: movieId }} setSelectedList={setSelectedList} />
         </CardActions>
       </div>
     </Card>

@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import { Box, Card, Link, Typography, Stack } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import StarIcon from '@mui/icons-material/Star';
+import { CardActions } from '@mui/material';
+import SelectVariants from 'src/components/button-dropdown/index.js';
+import 'src/sections/@dashboard/movies/index.css';
 
 // utils
 import { fCurrency } from '../../../utils/formatNumber';
@@ -21,11 +24,11 @@ const StyledMovieImg = styled('img')({
 
 // ----------------------------------------------------------------------
 
-ShopMovieCard.propTypes = {
+NewMovieCard.propTypes = {
   movie: PropTypes.object,
 };
 
-export default function ShopMovieCard({ movie }) {
+export default function NewMovieCard({ movie, onMoveMovieToList, listName}) {
   const { name, cover, stars } = movie;
 
   return (
@@ -35,13 +38,11 @@ export default function ShopMovieCard({ movie }) {
       </Box>
 
       <Stack spacing={2} sx={{ p: 3 }}>
-        <Link color="inherit" underline="hover" >
-          <Typography variant="subtitle2" noWrap>
+          <Typography variant="subtitle1" noWrap>
             {name}
           </Typography>
-        </Link>
 
-        <Stack direction="row" alignItems="center" justifyContent="space-between">
+        <Stack direction="row" alignItems="left" justifyContent="space-between">
           
           <Typography variant="subtitle1">
             <Typography
@@ -55,6 +56,13 @@ export default function ShopMovieCard({ movie }) {
             
             </Typography>
           </Typography>
+          <div className="bottom-element">
+            <CardActions>
+             <SelectVariants 
+                  value={listName}
+                  onMoveMovieToList={(selectedList) => onMoveMovieToList(selectedList, movie)}/>
+            </CardActions>
+          </div>
         </Stack>
 
         {stars && (

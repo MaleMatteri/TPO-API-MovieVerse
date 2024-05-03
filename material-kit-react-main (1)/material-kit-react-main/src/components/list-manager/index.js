@@ -1,25 +1,32 @@
-import React, { useState } from 'react';
-import MovieCard from 'src/components/movie-cards/index.js'; 
-import { mamma_mia, mamma_mia2, one_day, tokyo_drift } from 'src/assets/pictures'; // Import your images
-import SelectVariants from 'src/components/button-dropdown/index.js'; // Import the SelectVariants component
+// MovieListManager.js
+import React from 'react';
+import SelectVariants from 'src/components/button-dropdown/index.js'; 
+import movies from 'src/_mock/movies.js'; // Ruta al archivo de películas
+import NewMovieCard from 'src/sections/@dashboard/movies/MovieCard';
 
 const MovieListManager = () => {
-  const [lists, setLists] = useState({
-    watching: [
-      { id: 1, title: 'Mamma Mia: Here we go again', image: mamma_mia2, ratingValue: 5 },
-    ],
-    watched: [
-      { id: 2, title: 'Mamma mia', image: mamma_mia, ratingValue: 5 },
-      { id: 4, title: 'Tokyo Drift', image: tokyo_drift, ratingValue: 4 }
-    ],
-    favorites: [
-      { id: 3, title: 'One Day', image: one_day, ratingValue: 4 },
-    ],
-    // Add more lists as needed
+  const [lists, setLists] = React.useState({
+    watching: [],
+    watched: [],
+    favorites: [],
   });
 
-  // Function to move a movie to a different list
-  const handleMoveMovieToList = (listName, movie) => {
+  // Inicializar las listas de películas usando las películas del archivo
+  React.useEffect(() => {
+    const initialLists = {
+      watching: [],
+      watched: [],
+      favorites: [],
+    };
+
+    movies.forEach(movie => {
+      initialLists.watching.push(movie);
+    });
+
+    setLists(initialLists);
+  }, []);
+
+  const onMoveMovieToList = (listName, movie) => {
     const newList = { ...lists };
     Object.keys(newList).forEach(key => {
       newList[key] = newList[key].filter(m => m.id !== movie.id);
@@ -28,58 +35,24 @@ const MovieListManager = () => {
     setLists(newList);
   };
 
-  // Function to handle list change
-  const handleListChange = (event, movie) => {
-    const newListName = event.target.value;
-    handleMoveMovieToList(newListName, movie);
-  };
-
   return (
     <div>
-      {/* Render the Watching list */}
-      <h2>Watching</h2>
-{       lists.watching.map(movie => (
-        <div key={movie.id}>
-            <MovieCard
-                title={movie.title}
-                image={movie.image}
-                ratingValue={movie.ratingValue}
-                movieId={movie.id}
-                onAddToList={handleMoveMovieToList}
-                onSelectChange={(event) => handleListChange(event, movie)} // Pass movie to handleListChange
-            />
+      {Object.keys(lists).map(listName => (
+        <div key={listName}>
+          <h2>{listName}</h2>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+            {lists[listName].map(movie => (
+              <div key={movie.id} style={{ flex: '0 1 calc(33.333% - 10px)', maxWidth: 'calc(33.333% - 10px)', marginBottom: '10px' }}>
+                <NewMovieCard
+                  movie={movie}
+                  listName={listName}
+                  onMoveMovieToList={(selectedList) => onMoveMovieToList(selectedList, movie)} // Pasa la función onMoveMovieToList
+                />
+              </div>
+            ))}
+          </div>
         </div>
       ))}
-
-      {/* Render the Watched list */}
-      <h2>Watched</h2>
-      {lists.watched.map(movie => (
-        <div key={movie.id}>
-          <MovieCard
-            title={movie.title}
-            image={movie.image}
-            ratingValue={movie.ratingValue}
-            movieId={movie.id}
-            onAddToList={handleMoveMovieToList}
-          />
-        </div>
-      ))}
-
-      {/* Render the Favorites list */}
-      <h2>Favorites</h2>
-      {lists.favorites.map(movie => (
-        <div key={movie.id}>
-          <MovieCard
-            title={movie.title}
-            image={movie.image}
-            ratingValue={movie.ratingValue}
-            movieId={movie.id}
-            onAddToList={handleMoveMovieToList}
-          />
-        </div>
-      ))}
-
-      {/* Render other lists similarly */}
     </div>
   );
 };

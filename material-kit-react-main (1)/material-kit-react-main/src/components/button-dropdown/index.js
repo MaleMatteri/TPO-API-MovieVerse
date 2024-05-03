@@ -1,11 +1,10 @@
+// SelectVariants.js
 import React from 'react';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 
-const SelectVariants = ({ value, onChange, movie }) => {
+const SelectVariants = ({ value, onMoveMovieToList }) => {
   const handleChange = (event) => {
-    console.log("Selected value:", event.target.value);
-    console.log("Movie:", movie);
-    onChange(event.target.value, movie);
+    onMoveMovieToList(event.target.value); // Llama a la función onMoveMovieToList con el valor seleccionado
   };
 
   return (
