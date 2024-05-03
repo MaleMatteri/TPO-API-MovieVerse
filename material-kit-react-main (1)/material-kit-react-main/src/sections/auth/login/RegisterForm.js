@@ -42,6 +42,7 @@ export default function RegisterForm() {
       setYou_SurnameSuccess(true); 
       setEmailSuccess(true); 
       setPasswordSuccess(true); 
+      navigate('/login', { replace: true });
   };
 
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navigate, useRoutes } from 'react-router-dom';
+import { Navigate, useRoutes, BrowserRouter, Routes, Route} from 'react-router-dom';
 // Importa los componentes de las páginas
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage'; // Importa el componente RegisterPage
@@ -13,9 +13,22 @@ import DashboardAppPage from './pages/DashboardAppPage';
 import SearchPage from './pages/SearchPage';
 
 export default function Router() {
+  return (<div>
+            <Routes>
+                <Route path="/" element={<LoginPage/>} />
+                <Route path="/login" element={<LoginPage/>} />
+                <Route path="/register" element={<RegisterPage />} />
+                <Route path="/dashboard" element={<DashboardLayout />}>
+                  <Route path="/dashboard/app" element={<DashboardAppPage />} />
+                  <Route path="/dashboard/search" element={<SearchPage />} />
+                </Route> 
+                <Route path="*" element={<Page404 />} />
+            </Routes>
+  </div>)
+
   const routes = useRoutes([
     {
-      path: '/login',
+      path: '/',
       element: <LoginPage />
     },
     {

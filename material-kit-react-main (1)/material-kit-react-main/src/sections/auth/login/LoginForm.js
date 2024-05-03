@@ -25,7 +25,7 @@ export default function LoginForm() {
     }
     // Aquí podrías continuar con el proceso de inicio de sesión
     console.log('Iniciar sesión con:', email, password);
-    navigate('/dashboard', { replace: true });
+    navigate('/dashboard/app', { replace: true });
   };
 
   return (
