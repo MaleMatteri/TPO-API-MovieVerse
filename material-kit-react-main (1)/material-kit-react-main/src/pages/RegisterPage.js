@@ -47,7 +47,7 @@ export default function RegisterPage() {
   return (
     <>
       <Helmet>
-        <title> Sing up | MultiVerse </title>
+        <title> Sign up | MultiVerse </title>
       </Helmet>
 
       <StyledRoot>

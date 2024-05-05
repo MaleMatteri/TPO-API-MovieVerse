@@ -116,7 +116,7 @@ export default function RegisterForm() {
       </Stack>
 
       <LoadingButton fullWidth size="large" variant="contained" sx={{ my: 3 }} onClick={handleClick}>
-        Sing up
+        Sign up
       </LoadingButton>
 
     </>
