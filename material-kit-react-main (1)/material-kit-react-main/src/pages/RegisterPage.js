@@ -62,7 +62,7 @@ export default function RegisterPage() {
         {mdUp && (
           <StyledSection>
             <Typography variant="h3" sx={{ color: 'white', px: 5, mt: 10, mb: 5 }}>
-            Hello, Welcome to our Movie Multiverse!
+             Welcome to our Movie Multiverse!
             </Typography>
             <img src="/assets/illustrations/imagen_pelicula.png" alt="register"/>
           </StyledSection>

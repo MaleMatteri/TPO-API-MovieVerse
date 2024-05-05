@@ -1,25 +1,41 @@
-import React, { useState } from 'react';
-import MovieCard from 'src/components/movie-cards/index.js'; 
-import { mamma_mia, mamma_mia2, one_day, tokyo_drift } from 'src/assets/pictures'; // Import your images
-import SelectVariants from 'src/components/button-dropdown/index.js'; // Import the SelectVariants component
+import React from 'react';
+import movies from 'src/_mock/movies.js';
+import NewMovieCard from 'src/sections/@dashboard/movies/MovieCard';
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
+import 'src/components/list-manager/index.css';
+import EmptyListCard from '../empty-list-card';import { Padding } from '@mui/icons-material';
+'src/components/empty-list-card/index.js';
+
+const responsive = {
+  superLargeDesktop: { breakpoint: { max: 4000, min: 3000 }, items: 5 },
+  desktop: { breakpoint: { max: 3000, min: 1024 }, items: 3 },
+  tablet: { breakpoint: { max: 1024, min: 464 }, items: 2 },
+  mobile: { breakpoint: { max: 464, min: 0 }, items: 1 }
+};
 
 const MovieListManager = () => {
-  const [lists, setLists] = useState({
-    watching: [
-      { id: 1, title: 'Mamma Mia: Here we go again', image: mamma_mia2, ratingValue: 5 },
-    ],
-    watched: [
-      { id: 2, title: 'Mamma mia', image: mamma_mia, ratingValue: 5 },
-      { id: 4, title: 'Tokyo Drift', image: tokyo_drift, ratingValue: 4 }
-    ],
-    favorites: [
-      { id: 3, title: 'One Day', image: one_day, ratingValue: 4 },
-    ],
-    // Add more lists as needed
+  const [lists, setLists] = React.useState({
+    watching: [],
+    watched: [],
+    favorites: [],
   });
 
-  // Function to move a movie to a different list
-  const handleMoveMovieToList = (listName, movie) => {
+  React.useEffect(() => {
+    const initialLists = {
+      watching: [],
+      watched: [],
+      favorites: [],
+    };
+
+    movies.forEach(movie => {
+      initialLists.watching.push(movie);
+    });
+
+    setLists(initialLists);
+  }, []);
+
+  const onMoveMovieToList = (listName, movie) => {
     const newList = { ...lists };
     Object.keys(newList).forEach(key => {
       newList[key] = newList[key].filter(m => m.id !== movie.id);
@@ -28,58 +44,49 @@ const MovieListManager = () => {
     setLists(newList);
   };
 
-  // Function to handle list change
-  const handleListChange = (event, movie) => {
-    const newListName = event.target.value;
-    handleMoveMovieToList(newListName, movie);
+  const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+
+  const renderMovieCards = (listName) => {
+    if (lists[listName].length === 0) {
+      return (
+        <div style={{ padding: '30px' }}>
+          <EmptyListCard/>
+        </div>
+        /*<div className="empty-list-card">
+          <p>Add new movies</p>
+        </div>*/
+      );
+    } else {
+      return (
+        <Carousel 
+          responsive={responsive} 
+          itemClass="carousel-item" 
+          containerClass="carousel-container" 
+        >
+          {lists[listName].map((movie, index) => (
+            <div key={movie.id} className="movie-card-container">
+              <NewMovieCard
+                movie={movie}
+                listName={listName}
+                onMoveMovieToList={(selectedList) => onMoveMovieToList(selectedList, movie)}
+              />
+            </div>
+          ))}
+        </Carousel>
+      );
+    }
   };
 
   return (
     <div>
-      {/* Render the Watching list */}
-      <h2>Watching</h2>
-{       lists.watching.map(movie => (
-        <div key={movie.id}>
-            <MovieCard
-                title={movie.title}
-                image={movie.image}
-                ratingValue={movie.ratingValue}
-                movieId={movie.id}
-                onAddToList={handleMoveMovieToList}
-                onSelectChange={(event) => handleListChange(event, movie)} // Pass movie to handleListChange
-            />
+      {Object.keys(lists).map(listName => (
+        <div key={listName}>
+          <h3>{capitalizeFirstLetter(listName)}</h3>
+          {renderMovieCards(listName)}
         </div>
       ))}
-
-      {/* Render the Watched list */}
-      <h2>Watched</h2>
-      {lists.watched.map(movie => (
-        <div key={movie.id}>
-          <MovieCard
-            title={movie.title}
-            image={movie.image}
-            ratingValue={movie.ratingValue}
-            movieId={movie.id}
-            onAddToList={handleMoveMovieToList}
-          />
-        </div>
-      ))}
-
-      {/* Render the Favorites list */}
-      <h2>Favorites</h2>
-      {lists.favorites.map(movie => (
-        <div key={movie.id}>
-          <MovieCard
-            title={movie.title}
-            image={movie.image}
-            ratingValue={movie.ratingValue}
-            movieId={movie.id}
-            onAddToList={handleMoveMovieToList}
-          />
-        </div>
-      ))}
-
-      {/* Render other lists similarly */}
     </div>
   );
 };
