@@ -1,0 +1,14 @@
+/* Stylesheet or component CSS */
+.movie-card-container {
+  margin-right: 10px; /* Add margin to create space between cards */
+}
+
+.carousel-item {
+  padding: 0 20px; /* Adjust padding for each item */
+}
+
+.carousel-container {
+  padding: 0 10px; /* Adjust padding for the entire carousel container */
+}
+
+

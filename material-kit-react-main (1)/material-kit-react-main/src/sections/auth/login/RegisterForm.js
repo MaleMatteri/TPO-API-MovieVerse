@@ -4,6 +4,7 @@ import { Link, Stack, IconButton, InputAdornment, TextField, Checkbox } from '@m
 import { LoadingButton } from '@mui/lab';
 import Iconify from '../../../components/iconify';
 import useResponsive from '../../../hooks/useResponsive'; 
+import Swal from 'sweetalert2';
 
 // ----------------------------------------------------------------------
 
@@ -42,7 +43,16 @@ export default function RegisterForm() {
       setYou_SurnameSuccess(true); 
       setEmailSuccess(true); 
       setPasswordSuccess(true); 
-      navigate('/login', { replace: true });
+      Swal.fire({
+        title: 'Welcome' + ' ' + you_name + '!',
+        text: 'Your account has been created',
+        icon: 'success',
+        confirmButtonText: 'Go to login'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate('/login'); // Navigate to the login page when "Go to login" is clicked
+        }
+      });
   };
 
 
