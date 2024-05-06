@@ -1,18 +1,9 @@
 import PropTypes from 'prop-types';
-// @mui
-import { Box, Card, Link, Typography, Stack } from '@mui/material';
+import { Box, Card, Typography, Stack, CardActions } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import StarIcon from '@mui/icons-material/Star';
-import { CardActions } from '@mui/material';
 import SelectVariants from 'src/components/button-dropdown/index.js';
 import 'src/sections/@dashboard/movies/index.css';
-
-// utils
-import { fCurrency } from '../../../utils/formatNumber';
-// components
-import { ColorPreview } from '../../../components/color-utils';
-
-// ----------------------------------------------------------------------
 
 const StyledMovieImg = styled('img')({
   top: 0,
@@ -22,14 +13,12 @@ const StyledMovieImg = styled('img')({
   position: 'absolute',
 });
 
-// ----------------------------------------------------------------------
-
 NewMovieCard.propTypes = {
   movie: PropTypes.object,
 };
 
-export default function NewMovieCard({ movie, onMoveMovieToList, listName}) {
-  const { name, cover, stars } = movie;
+export default function NewMovieCard({ movie, onMoveMovieToList, listName }) {
+  const { name, cover, stars, cast } = movie;
 
   return (
     <Card>
@@ -38,50 +27,30 @@ export default function NewMovieCard({ movie, onMoveMovieToList, listName}) {
       </Box>
 
       <Stack spacing={2} sx={{ p: 3 }}>
-          <Typography variant="subtitle1" noWrap>
-            {name}
-          </Typography>
+        <Typography variant="subtitle1" noWrap>
+          {name}
+        </Typography>
 
-        <Stack direction="row" alignItems="left" justifyContent="space-between">
-          
-          <Typography variant="subtitle1">
-            <Typography
-              component="span"
-              variant="body1"
-              sx={{
-                color: 'text.disabled',
-                textDecoration: 'line-through',
-              }}
-            >
-            
-            </Typography>
+        <Stack direction="row" alignItems="center">
+          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+            Rating:
           </Typography>
-          <div className="bottom-element">
-            <CardActions>
-             <SelectVariants 
-                  value={listName}
-                  onMoveMovieToList={(selectedList) => onMoveMovieToList(selectedList, movie)}/>
-            </CardActions>
-          </div>
+          {stars && (
+            <Box sx={{ display: 'flex', alignItems: 'center', ml: 1 }}>
+              {Array.from({ length: stars }).map((_, index) => (
+                <StarIcon key={index} style={{ color: '#ffe575' }} />
+              ))}
+            </Box>
+          )}
         </Stack>
 
-        {stars && (
-          <div
-            style={{
-              position: 'absolute',
-              bottom: 0,
-              right: 0,
-              zIndex: 9,
-              backgroundColor: 'rgba(0, 0, 0, 0)', // Amarillo con opacidad
-              padding: '4px 8px',
-              borderRadius: '4px',
-            }}
-          >
-            {Array.from({ length: stars }).map((_, index) => (
-              <StarIcon key={index} style={{ color: '#ffe575' }} />
-            ))}
-          </div>
-        )}
+        <Typography variant="body2" sx={{ color: 'text.disabled' }}>
+          Cast: {cast}
+        </Typography>
+
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <SelectVariants value={listName} onMoveMovieToList={(selectedList) => onMoveMovieToList(selectedList, movie)} />
+        </Box>
       </Stack>
     </Card>
   );
