@@ -1,9 +1,10 @@
-import PropTypes from 'prop-types';
-import { Box, Card, Typography, Stack, CardActions } from '@mui/material';
+// NewMovieCard.js
+
+import React from 'react';
+import { Card, Box, Typography, Stack } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import StarIcon from '@mui/icons-material/Star';
-import SelectVariants from 'src/components/button-dropdown/index.js';
-import 'src/sections/@dashboard/movies/index.css';
+import SelectVariants from 'src/components/button-dropdown/index.js'; // Adjust the path as needed
 
 const StyledMovieImg = styled('img')({
   top: 0,
@@ -13,11 +14,7 @@ const StyledMovieImg = styled('img')({
   position: 'absolute',
 });
 
-NewMovieCard.propTypes = {
-  movie: PropTypes.object,
-};
-
-export default function NewMovieCard({ movie, onMoveMovieToList, listName }) {
+const NewMovieCard = ({ movie, onMoveMovieToList, listName, lists }) => {
   const { name, cover, stars, cast } = movie;
 
   return (
@@ -49,9 +46,15 @@ export default function NewMovieCard({ movie, onMoveMovieToList, listName }) {
         </Typography>
 
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <SelectVariants value={listName} onMoveMovieToList={(selectedList) => onMoveMovieToList(selectedList, movie)} />
+          <SelectVariants
+            value={listName}
+            onMoveMovieToList={(selectedList) => onMoveMovieToList(selectedList, movie)}
+            listNames={Object.keys(lists)}
+          />
         </Box>
       </Stack>
     </Card>
   );
-}
+};
+
+export default NewMovieCard;

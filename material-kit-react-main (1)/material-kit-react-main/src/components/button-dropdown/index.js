@@ -2,9 +2,9 @@
 import React from 'react';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 
-const SelectVariants = ({ value, onMoveMovieToList }) => {
+const SelectVariants = ({ value, onMoveMovieToList, listNames }) => {
   const handleChange = (event) => {
-    onMoveMovieToList(event.target.value); // Llama a la función onMoveMovieToList con el valor seleccionado
+    onMoveMovieToList(event.target.value);
   };
 
   return (
@@ -16,9 +16,9 @@ const SelectVariants = ({ value, onMoveMovieToList }) => {
         label="List"
       >
         <MenuItem value=""><em>None</em></MenuItem>
-        <MenuItem value="watching">Watching</MenuItem>
-        <MenuItem value="watched">Watched</MenuItem>
-        <MenuItem value="favorites">Favorites</MenuItem>
+        {listNames.map((listName) => (
+          <MenuItem key={listName} value={listName}>{listName}</MenuItem>
+        ))}
       </Select>
     </FormControl>
   );

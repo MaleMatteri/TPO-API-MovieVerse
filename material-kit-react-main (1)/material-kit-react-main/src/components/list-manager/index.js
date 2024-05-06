@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+// MovieListManager.js
+import React, { useState, useEffect } from 'react';
 import movies from 'src/_mock/movies.js';
 import NewMovieCard from 'src/sections/@dashboard/movies/MovieCard';
 import Carousel from "react-multi-carousel";
@@ -23,33 +24,7 @@ const MovieListManager = () => {
     favorites: [],
   });
 
-  const [isAddingList, setIsAddingList] = useState(false);
-
-const handleAddList = async () => {
-  const { value: newListName } = await Swal.fire({
-    title: 'Enter the name for the new list:',
-    input: 'text',
-    inputLabel: 'New List Name',
-    inputPlaceholder: 'Enter the name for the new list',
-    showCancelButton: true,
-    preConfirm: (name) => {
-      if (!name) {
-        Swal.showValidationMessage('List name cannot be empty');
-      }
-      return name;
-    }
-  });
-
-  if (newListName) {
-    setLists(prevLists => ({
-      ...prevLists,
-      [newListName.toLowerCase()]: [], // Create a new empty list with the given name
-    }));
-  }
-};
-
-
-  React.useEffect(() => {
+  useEffect(() => {
     const initialLists = {
       watching: [],
       watched: [],
@@ -62,6 +37,29 @@ const handleAddList = async () => {
 
     setLists(initialLists);
   }, []);
+
+  const handleAddList = async () => {
+    const { value: newListName } = await Swal.fire({
+      title: 'Enter the name for the new list:',
+      input: 'text',
+      inputPlaceholder: 'Enter the name for the new list',
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      preConfirm: (name) => {
+        if (!name) {
+          Swal.showValidationMessage('List name cannot be empty');
+        }
+        return name;
+      }
+    });
+
+    if (newListName) {
+      setLists(prevLists => ({
+        ...prevLists,
+        [newListName.toLowerCase()]: [], // Create a new empty list with the given name
+      }));
+    }
+  };
 
   const onMoveMovieToList = (listName, movie) => {
     const newList = { ...lists };
@@ -95,6 +93,7 @@ const handleAddList = async () => {
               <NewMovieCard
                 movie={movie}
                 listName={listName}
+                lists={lists} // Pass the lists state as a prop
                 onMoveMovieToList={(selectedList) => onMoveMovieToList(selectedList, movie)}
               />
             </div>
