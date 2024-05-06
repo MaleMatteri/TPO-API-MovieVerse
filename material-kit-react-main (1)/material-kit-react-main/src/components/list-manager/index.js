@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import movies from 'src/_mock/movies.js';
 import NewMovieCard from 'src/sections/@dashboard/movies/MovieCard';
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import 'src/components/list-manager/index.css';
-import EmptyListCard from '../empty-list-card';import { Padding } from '@mui/icons-material';
-'src/components/empty-list-card/index.js';
+import EmptyListCard from '../empty-list-card';
+import { Fab } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import Swal from 'sweetalert2';
 
 const responsive = {
   superLargeDesktop: { breakpoint: { max: 4000, min: 3000 }, items: 5 },
@@ -15,11 +17,37 @@ const responsive = {
 };
 
 const MovieListManager = () => {
-  const [lists, setLists] = React.useState({
+  const [lists, setLists] = useState({
     watching: [],
     watched: [],
     favorites: [],
   });
+
+  const [isAddingList, setIsAddingList] = useState(false);
+
+const handleAddList = async () => {
+  const { value: newListName } = await Swal.fire({
+    title: 'Enter the name for the new list:',
+    input: 'text',
+    inputLabel: 'New List Name',
+    inputPlaceholder: 'Enter the name for the new list',
+    showCancelButton: true,
+    preConfirm: (name) => {
+      if (!name) {
+        Swal.showValidationMessage('List name cannot be empty');
+      }
+      return name;
+    }
+  });
+
+  if (newListName) {
+    setLists(prevLists => ({
+      ...prevLists,
+      [newListName.toLowerCase()]: [], // Create a new empty list with the given name
+    }));
+  }
+};
+
 
   React.useEffect(() => {
     const initialLists = {
@@ -54,9 +82,6 @@ const MovieListManager = () => {
         <div style={{ padding: '30px' }}>
           <EmptyListCard/>
         </div>
-        /*<div className="empty-list-card">
-          <p>Add new movies</p>
-        </div>*/
       );
     } else {
       return (
@@ -81,6 +106,12 @@ const MovieListManager = () => {
 
   return (
     <div>
+      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '20px' }}>
+        <Fab variant="extended" color="primary" onClick={handleAddList}>
+          <AddIcon />
+          New List
+        </Fab>
+      </div>
       {Object.keys(lists).map(listName => (
         <div key={listName}>
           <h3>{capitalizeFirstLetter(listName)}</h3>
