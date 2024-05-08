@@ -5,7 +5,6 @@ import { MovieList } from '../sections/@dashboard/movies';
 import MOVIES from '../_mock/movies';
 
 export default function SearchPage() {
-  const [searchTerm, setSearchTerm] = useState('');
 
   // Filtrar películas basadas en el término de búsqueda
   const filteredMovies = MOVIES.filter((movie) =>

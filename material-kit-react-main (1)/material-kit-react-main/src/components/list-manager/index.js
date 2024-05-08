@@ -62,6 +62,17 @@ const MovieListManager = () => {
   };
 
   const onMoveMovieToList = (listName, movie) => {
+    // If "None" is selected, remove the movie from all lists
+    if (listName === 'none') {
+      const newList = { ...lists };
+      Object.keys(newList).forEach(key => {
+        newList[key] = newList[key].filter(m => m.id !== movie.id);
+      });
+      setLists(newList);
+      return;
+    }
+  
+    // Otherwise, add the movie to the selected list
     const newList = { ...lists };
     Object.keys(newList).forEach(key => {
       newList[key] = newList[key].filter(m => m.id !== movie.id);
@@ -69,6 +80,7 @@ const MovieListManager = () => {
     newList[listName] = [...newList[listName], movie];
     setLists(newList);
   };
+  
 
   const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);

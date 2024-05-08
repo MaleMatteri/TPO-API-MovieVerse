@@ -4,12 +4,8 @@ import { Navigate, useRoutes, BrowserRouter, Routes, Route} from 'react-router-d
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import DashboardLayout from './layouts/dashboard';
-import SimpleLayout from './layouts/simple';
-import BlogPage from './pages/BlogPage';
-import UserPage from './pages/UserPage';
 import SearchPage from './pages/SearchPage';
 import Page404 from './pages/Page404';
-import ProductsPage from './pages/ProductsPage';
 import DashboardAppPage from './pages/DashboardAppPage';
 
 export default function Router() {

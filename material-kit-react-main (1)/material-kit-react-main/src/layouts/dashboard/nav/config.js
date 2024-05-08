@@ -16,24 +16,9 @@ const navConfig = [
     icon: <HomeRoundedIcon sx={{ width: 1, height: 1 }}/> ,
   },
   {
-    title: 'My lists',
-    path: '/dashboard/products',
-    icon: <MovieFilterRoundedIcon sx={{ width: 1, height: 1 }}/>
-  },
-  {
     title: 'Search',
     path: '/dashboard/search',
     icon: <SearchIcon sx={{ width: 1, height: 1 }}/>
-  },
-  {
-    title: 'login',
-    path: '/login',
-    icon: <VpnKeyRoundedIcon sx={{ width: 1, height: 1 }}/>,
-  },
-  {
-    title: 'Not found',
-    path: '/404',
-    icon: icon('ic_disabled'),
   },
 ];
 

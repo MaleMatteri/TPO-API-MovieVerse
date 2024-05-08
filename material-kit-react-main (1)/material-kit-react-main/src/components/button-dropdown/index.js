@@ -15,7 +15,7 @@ const SelectVariants = ({ value, onMoveMovieToList, listNames }) => {
         onChange={handleChange}
         label="List"
       >
-        <MenuItem value=""><em>None</em></MenuItem>
+        <MenuItem value="none"><em>None</em></MenuItem>
         {listNames.map((listName) => (
           <MenuItem key={listName} value={listName}>{listName}</MenuItem>
         ))}
