@@ -14,7 +14,12 @@ const StyledMovieImg = styled('img')({
   position: 'absolute',
 });
 
-const NewMovieCard = ({ movie, onMoveMovieToList, listName, lists }) => {
+const NewMovieCard = ({ movie, onMoveMovieToList = () => {}, listName = '', lists = [] }) => { 
+  // aca faltaba inicializar los valores de listName y lists para que si venian null o undefined no rompa
+
+  if (!movie) { // aca valida que movie no sea null o undefined y si es no muestra esa pelicula
+    return null;
+  }
   const { name, cover, stars, cast } = movie;
 
   return (

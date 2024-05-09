@@ -10,6 +10,7 @@ MovieList.propTypes = {
 };
 
 export default function MovieList({ movies, ...other }) {
+  console.log(movies);
   return (
     <Grid container spacing={3} {...other}>
       {movies.map((movie) => (
