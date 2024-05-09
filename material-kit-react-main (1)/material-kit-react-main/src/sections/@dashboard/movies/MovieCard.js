@@ -55,6 +55,7 @@ const NewMovieCard = ({ movie, onMoveMovieToList = () => {}, listName = '', list
             value={listName}
             onMoveMovieToList={(selectedList) => onMoveMovieToList(selectedList, movie)}
             listNames={Object.keys(lists)}
+            lists={lists} // Pass lists prop to SelectVariants component
           />
         </Box>
       </Stack>

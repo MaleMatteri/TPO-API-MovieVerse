@@ -1,25 +1,22 @@
+import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
-// routes
 import Router from './routes';
-// theme
 import ThemeProvider from './theme';
-// components
-import { StyledChart } from './components/chart';
-import ScrollToTop from './components/scroll-to-top';
+import { useMovieList, MovieListProvider } from 'src/components/list-context/index.js'; // Import the MovieListProvider
 
-// ----------------------------------------------------------------------
-
-export default function App() {
+const App = () => {
   return (
     <HelmetProvider>
       <BrowserRouter>
         <ThemeProvider>
-          <ScrollToTop />
-          <StyledChart />
-          <Router />
+          <MovieListProvider> {/* Wrap your app with MovieListProvider */}
+            <Router />
+          </MovieListProvider>
         </ThemeProvider>
       </BrowserRouter>
     </HelmetProvider>
   );
-}
+};
+
+export default App;
