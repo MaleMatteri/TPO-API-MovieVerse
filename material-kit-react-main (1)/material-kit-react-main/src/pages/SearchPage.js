@@ -3,16 +3,18 @@ import { useState } from 'react';
 import { Container, Stack, Typography, TextField } from '@mui/material';
 import { MovieList } from '../sections/@dashboard/movies';
 import MOVIES from '../_mock/movies';
+import { useMovieList } from 'src/components/list-context/index.js'; // Import the movie list context hook
 
 export default function SearchPage() {
   const [searchTerm, setSearchTerm] = useState('');
+  const { moveMovieToList, lists } = useMovieList(); // Use the movie list context hook
 
-  // Filtrar películas basadas en el término de búsqueda
-  const filteredMovies = MOVIES.filter((movie) =>
-    movie.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredMovies = searchTerm
+    ? MOVIES.filter((movie) =>
+        movie.name.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    : MOVIES;
 
-  // Manejar el cambio en la barra de búsqueda
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
@@ -28,7 +30,6 @@ export default function SearchPage() {
           Movies
         </Typography>
 
-        {/* Barra de búsqueda */}
         <TextField
           fullWidth
           label="Search movies"
@@ -38,8 +39,17 @@ export default function SearchPage() {
           sx={{ mb: 3 }}
         />
 
-        {/* Mostrar películas filtradas */}
-        <MovieList movies={filteredMovies} />
+        {filteredMovies.length > 0 ? (
+          <MovieList
+            movies={filteredMovies}
+            onMoveMovieToList={moveMovieToList} // Pass the moveMovieToList function
+            lists={lists}
+          />
+        ) : (
+          <Typography variant="h6">
+            No hay películas que coincidan con tu búsqueda
+          </Typography>
+        )}
       </Container>
     </>
   );

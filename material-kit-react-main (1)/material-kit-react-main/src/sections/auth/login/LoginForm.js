@@ -12,19 +12,26 @@ export default function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [emailError, setEmailError] = useState(false); // Estado para indicar si hay un error en el campo de email
-  const [passwordError, setPasswordError] = useState(false); // Estado para indicar si hay un error en el campo de contraseña
+  const [loginErrorType, setLoginErrorType] = useState(null);
+  const isMobile = useResponsive('down', 'sm');
 
-  const isMobile = useResponsive('down', 'sm'); // Check if the device is mobile
+  const HARDCODED_USERNAME = 'example@example.com';
+  const HARDCODED_PASSWORD = '1234';
 
   const handleClick = () => {
-    if (email.trim() === '' || password.trim() === '') {
-      setEmailError(email.trim() === ''); // Establecer el estado de error para el campo de email
-      setPasswordError(password.trim() === ''); // Establecer el estado de error para el campo de contraseña
+    if (email === '' || password === '') {
+      // If fields are empty, set loginErrorType to 'empty'
+      setLoginErrorType('empty');
       return;
     }
-    // Aquí podrías continuar con el proceso de inicio de sesión
-    console.log('Iniciar sesión con:', email, password);
+
+    if (email !== HARDCODED_USERNAME || password !== HARDCODED_PASSWORD) {
+      // If credentials are incorrect, set loginErrorType to 'incorrect'
+      setLoginErrorType('incorrect');
+      return;
+    }
+
+    // If credentials are correct, navigate to the dashboard page
     navigate('/dashboard/app', { replace: true });
   };
 
@@ -35,11 +42,17 @@ export default function LoginForm() {
           name="email" 
           label="Email address"
           value={email} 
-          onChange={(e) => { setEmail(e.target.value); setEmailError(false); }} // Limpiar el error cuando se modifica el campo de email
-          error={emailError} // Aplicar estilo de error al campo de email si hay un error
-          helperText={emailError ? 'Por favor, complete este campo' : ' '} // Espacio reservado para mantener la altura del campo
+          onChange={(e) => { setEmail(e.target.value); setLoginErrorType(null); }}
+          error={loginErrorType === 'empty' || loginErrorType === 'incorrect'}
+          helperText={
+            loginErrorType === 'empty'
+              ? 'Please enter your email'
+              : loginErrorType === 'incorrect'
+              ? 'Incorrect email or password'
+              : ' '
+          }
           InputProps={{
-            style: { color: isMobile ? 'white' : 'black' } // Change text color based on mobile mode
+            style: { color: isMobile ? 'white' : 'black' }
           }}
         />
         <TextField
@@ -47,12 +60,18 @@ export default function LoginForm() {
           label="Password"
           type={showPassword ? 'text' : 'password'}
           value={password}
-          onChange={(e) => { setPassword(e.target.value); setPasswordError(false); }} // Limpiar el error cuando se modifica el campo de contraseña
-          error={passwordError} // Aplicar estilo de error al campo de contraseña si hay un error
-          helperText={passwordError ? 'Por favor, complete este campo' : ' '} // Espacio reservado para mantener la altura del campo
-          sx={{ whiteSpace: 'nowrap', textOverflow: 'ellipsis' }} // Evitar que el texto se divida y mostrar puntos suspensivos si no cabe en el campo
+          onChange={(e) => { setPassword(e.target.value); setLoginErrorType(null); }}
+          error={loginErrorType === 'empty' || loginErrorType === 'incorrect'}
+          helperText={
+            loginErrorType === 'empty'
+              ? 'Please enter your password'
+              : loginErrorType === 'incorrect'
+              ? 'Incorrect email or password'
+              : ' '
+          }
+          sx={{ whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}
           InputProps={{
-            style: { color: isMobile ? 'white' : 'black' }, // Change text color based on mobile mode
+            style: { color: isMobile ? 'white' : 'black' },
             endAdornment: (
               <InputAdornment position="end">
                 <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
@@ -77,4 +96,3 @@ export default function LoginForm() {
     </>
   );
 }
-// consultar si hay que sacar forgot password -- <LoadingButton fullWidth size="large" variant="contained" sx={{ my: 4 }} onClick={handleClick}>
