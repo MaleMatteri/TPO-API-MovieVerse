@@ -5,6 +5,8 @@ import { Card, Box, Typography, Stack } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import StarIcon from '@mui/icons-material/Star';
 import SelectVariants from 'src/components/button-dropdown/index.js'; // Adjust the path as needed
+import Swal from 'sweetalert2'; // Import SweetAlert2
+
 
 const StyledMovieImg = styled('img')({
   top: 0,
@@ -16,6 +18,19 @@ const StyledMovieImg = styled('img')({
 
 const NewMovieCard = ({ movie, onMoveMovieToList = () => {}, listName = '', lists = [] }) => { 
   // aca faltaba inicializar los valores de listName y lists para que si venian null o undefined no rompa
+
+  const handleMoveMovieToList = (selectedList) => {
+    onMoveMovieToList(selectedList, movie);
+
+    if (selectedList !== 'none') {
+      Swal.fire({
+        title: 'Movie Added',
+        text: `${name} has been added to the "${selectedList}" list.`,
+        icon: 'success',
+        confirmButtonText: 'OK',
+      });
+    }
+  };
 
   if (!movie) { // aca valida que movie no sea null o undefined y si es no muestra esa pelicula
     return null;
@@ -53,7 +68,7 @@ const NewMovieCard = ({ movie, onMoveMovieToList = () => {}, listName = '', list
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <SelectVariants
             value={listName}
-            onMoveMovieToList={(selectedList) => onMoveMovieToList(selectedList, movie)}
+            onMoveMovieToList={handleMoveMovieToList}
             listNames={Object.keys(lists)}
             lists={lists} // Pass lists prop to SelectVariants component
           />

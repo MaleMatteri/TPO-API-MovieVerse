@@ -1,31 +1,21 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import movies from 'src/_mock/movies.js';
+import movies from 'src/_mock/movies.js'; // Import the movies list
 import Swal from 'sweetalert2';
 
 const MovieListContext = createContext();
-
 export const useMovieList = () => {
   return useContext(MovieListContext);
 };
 
 export const MovieListProvider = ({ children }) => {
-  const [lists, setLists] = useState({
-    watching: [],
-    watched: [],
-    favorites: [],
-  });
+  const [lists, setLists] = useState({ watching: [], watched: [], favorites: [] });
 
   useEffect(() => {
     const initialLists = {
-      watching: [],
+      watching: movies.slice(0, 5), // Take the first 5 movies from the movies list
       watched: [],
       favorites: [],
     };
-
-    movies.forEach(movie => {
-      initialLists.watching.push(movie);
-    });
-
     setLists(initialLists);
   }, []);
 
@@ -45,31 +35,28 @@ export const MovieListProvider = ({ children }) => {
     });
 
     if (name) {
-      setLists(prevLists => ({
-        ...prevLists,
-        [name.toLowerCase()]: [], // Create a new empty list with the given name
-      }));
+      setLists(prevLists => ({ ...prevLists, [name.toLowerCase()]: [] }));
     }
   };
 
   const moveMovieToList = (listName, movie) => {
     if (listName === 'none') {
-        const newList = { ...lists };
-        Object.keys(newList).forEach(key => {
-          newList[key] = newList[key].filter(m => m.id !== movie.id);
-        });
-        setLists(newList);
-        return;
-      }
-    
-      // Otherwise, add the movie to the selected list
       const newList = { ...lists };
       Object.keys(newList).forEach(key => {
         newList[key] = newList[key].filter(m => m.id !== movie.id);
       });
-      newList[listName] = [...newList[listName], movie];
       setLists(newList);
-    };
+      return;
+    }
+
+    // Otherwise, add the movie to the selected list
+    const newList = { ...lists };
+    Object.keys(newList).forEach(key => {
+      newList[key] = newList[key].filter(m => m.id !== movie.id);
+    });
+    newList[listName] = [...newList[listName], movie];
+    setLists(newList);
+  };
 
   return (
     <MovieListContext.Provider value={{ lists, addList, moveMovieToList }}>
