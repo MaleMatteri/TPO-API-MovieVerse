@@ -25,8 +25,6 @@ import { faker } from '@faker-js/faker';
 //     'Matilda',
 // ];
 
-const movies = [...Array(20)].map((_, index) => {
-  const setIndex = index + 1;
 const MOVIE_DATA = [
   {
     name: 'Mamma mia',
