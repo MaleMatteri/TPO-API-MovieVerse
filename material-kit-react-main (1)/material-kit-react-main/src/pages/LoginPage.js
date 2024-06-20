@@ -1,15 +1,14 @@
 import { Helmet } from 'react-helmet-async';
 // @mui
 import { styled } from '@mui/material/styles';
-import { Link, Container, Typography, Divider, Stack, Button } from '@mui/material';
+import { Link, Container, Typography } from '@mui/material';
 // hooks
+import { Link as RouterLink } from 'react-router-dom';
 import useResponsive from '../hooks/useResponsive';
 // components
 import Logo from '../components/logo';
-import Iconify from '../components/iconify';
 // sections
 import { LoginForm } from '../sections/auth/login';
-import { Link as RouterLink } from 'react-router-dom';
 
 // ----------------------------------------------------------------------
 
@@ -40,7 +39,7 @@ const StyledContent = styled('div')(({ theme }) => ({
 }));
 
 // ----------------------------------------------------------------------
-// no funciona <Link to="/register" variant="subtitle2"> 
+
 export default function LoginPage() {
   const mdUp = useResponsive('up', 'md');
 
@@ -52,6 +51,7 @@ export default function LoginPage() {
 
       <StyledRoot>
         <Logo
+          src="/assets/Logo/MovieVerse.png" // Pasar la ruta correcta del logo aquí
           sx={{
             position: 'fixed',
             top: { xs: 16, sm: 24, md: 40 },
@@ -76,7 +76,7 @@ export default function LoginPage() {
 
             <Typography variant="body2" sx={{ mb: 5, color: mdUp ? 'inherit' : 'white' }}>
               Don’t have an account? {''}
-              <Link to="/register" component={RouterLink} variant="subtitle2"> 
+              <Link to="/register" component={RouterLink} variant="subtitle2">
                 Get started!
               </Link>
             </Typography>

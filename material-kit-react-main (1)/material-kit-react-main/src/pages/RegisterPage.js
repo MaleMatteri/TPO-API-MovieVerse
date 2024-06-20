@@ -6,7 +6,6 @@ import { Link, Container, Typography, Divider, Stack, Button } from '@mui/materi
 import useResponsive from '../hooks/useResponsive';
 // components
 import Logo from '../components/logo';
-import Iconify from '../components/iconify';
 // sections
 import { RegisterForm } from '../sections/auth/login';
 import { Link as RouterLink } from 'react-router-dom';
@@ -52,6 +51,7 @@ export default function RegisterPage() {
 
       <StyledRoot>
         <Logo
+          src="/assets/Logo/MovieVerse.png"
           sx={{
             position: 'fixed',
             top: { xs: 16, sm: 24, md: 40 },

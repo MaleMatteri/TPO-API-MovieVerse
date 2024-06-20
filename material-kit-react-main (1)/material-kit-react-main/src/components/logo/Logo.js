@@ -5,48 +5,45 @@ import { Link as RouterLink } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 import { Box, Link } from '@mui/material';
 import './index.css';
- 
 
 // ----------------------------------------------------------------------
 
 const Logo = forwardRef(({ disabledLink = false, sx, src, ...other }, ref) => {
   const theme = useTheme();
 
-  // Define the logo image element
   const logo = (
     <Box
       ref={ref}
       component="div"
       sx={{
-        width: 130,
-        height: 40,
+        width: 145,
+        height: 88,
         display: 'inline-flex',
         ...sx,
       }}
       {...other}
     >
-      <img src={'/assets/Logo/MovieVerse.png'} alt="Logo" width="500%" height="200%" />
+      <img src={src} alt="Logo" style={{ width: '100%', height: '100%' }} />
     </Box>
   );
 
-  // Render the logo without a link if disabledLink is true
   if (disabledLink) {
     return <>{logo}</>;
   }
 
-  // Render the logo as a link if disabledLink is false
   return (
-    <Link to="/" sx={{ display: 'contents' }}>
+    <Link to="/" component={RouterLink} sx={{ display: 'contents' }}>
       {logo}
     </Link>
   );
 });
 
-// PropTypes definition
 Logo.propTypes = {
   sx: PropTypes.object,
   disabledLink: PropTypes.bool,
-  src: PropTypes.string.isRequired, // Add src prop for the image path
+  src: PropTypes.string.isRequired,
 };
 
 export default Logo;
+
+
