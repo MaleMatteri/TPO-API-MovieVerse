@@ -1,12 +1,8 @@
-import { useState } from 'react';
-// @mui
-import { alpha } from '@mui/material/styles';
+import { useState, useEffect } from 'react';
 import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton, Popover } from '@mui/material';
-// mocks_
-import account from '../../../_mock/account';
+import { alpha } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
-
-// ----------------------------------------------------------------------
+import getUserByToken from 'src/api/getUserByToken.api';
 
 const MENU_OPTIONS = [
   {
@@ -17,7 +13,13 @@ const MENU_OPTIONS = [
 
 export default function AccountPopover() {
   const [open, setOpen] = useState(null);
+  const [user, setUser] = useState({
+    displayName: '',
+    email: '',
+    photoURL: '/assets/images/avatars/avatar_4.jpg', // Debes obtener la URL de la imagen del usuario si está disponible
+  });
   const navigate = useNavigate();
+  const accessToken = sessionStorage.getItem('access-token');
 
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
@@ -28,11 +30,31 @@ export default function AccountPopover() {
   };
 
   const handleLogout = () => {
-    // Perform logout actions here (e.g., clearing local storage, etc.)
-    // Then redirect the user to the login page
-    navigate('/login'); // Redirects to the login page
+    navigate('/login'); // Redirige a la página de inicio de sesión
   };
-  
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (accessToken) {
+        try {
+          const response = await getUserByToken(accessToken);
+          if (response.status === 200) {
+            setUser({
+              displayName: `${response.data.name} ${response.data.surname}`,
+              email: response.data.email,
+              photoURL: '/assets/images/avatars/avatar_default.jpg', // Debes obtener la URL de la imagen del usuario si está disponible
+            });
+          } else {
+            console.log('Error:', response.message);
+          }
+        } catch (error) {
+          console.error('Error fetching user data:', error);
+        }
+      }
+    };
+
+    fetchUserData();
+  }, [accessToken]);
 
   return (
     <>
@@ -53,7 +75,7 @@ export default function AccountPopover() {
           }),
         }}
       >
-        <Avatar src={account.photoURL} alt="photoURL" />
+        <Avatar src={user.photoURL} alt="photoURL" />
       </IconButton>
 
       <Popover
@@ -77,10 +99,10 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle2" noWrap>
-            {account.displayName}
+            {user.displayName}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {account.email}
+            {user.email}
           </Typography>
         </Box>
 
