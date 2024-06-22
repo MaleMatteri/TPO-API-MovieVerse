@@ -35,7 +35,7 @@ const NewMovieCard = ({ movie, onMoveMovieToList = () => {}, listName = '', list
   if (!movie) { // aca valida que movie no sea null o undefined y si es no muestra esa pelicula
     return null;
   }
-  const { name, cover, stars, cast } = movie;
+  const { name, cover, stars, language, type} = movie;
 
   return (
     <Card>
@@ -43,7 +43,7 @@ const NewMovieCard = ({ movie, onMoveMovieToList = () => {}, listName = '', list
         <StyledMovieImg alt={name} src={cover} />
       </Box>
 
-      <Stack spacing={2} sx={{ p: 3 }}>
+      <Stack spacing={2} sx={{ p: 2 }}>
         <Typography variant="subtitle1" noWrap>
           {name}
         </Typography>
@@ -62,7 +62,11 @@ const NewMovieCard = ({ movie, onMoveMovieToList = () => {}, listName = '', list
         </Stack>
 
         <Typography variant="body2" sx={{ color: 'text.disabled' }}>
-          Cast: {cast}
+          Language: {language}
+        </Typography>
+
+        <Typography variant="body2" sx={{ color: 'text.disabled' }}>
+          Type: {type}
         </Typography>
 
         <Box sx={{ display: 'flex', alignItems: 'center' }}>

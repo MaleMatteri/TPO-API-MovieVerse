@@ -5,7 +5,6 @@ const getUserByMail = async (email, token) => {
 
     var raw = JSON.stringify({
         "email": email,
-        "password": password
     });
 
     var requestOptions = {
