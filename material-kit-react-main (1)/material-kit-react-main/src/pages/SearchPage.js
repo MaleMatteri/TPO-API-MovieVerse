@@ -1,13 +1,16 @@
 import { Helmet } from 'react-helmet-async';
 import { useState } from 'react';
-import { Container, Stack, Typography, TextField } from '@mui/material';
+import { Container, Stack, Typography, TextField, Button } from '@mui/material';
 import { MovieList } from '../sections/@dashboard/movies';
 import MOVIES from '../_mock/movies';
-import { useMovieList } from 'src/components/list-context/index.js'; // Import the movie list context hook
+import { useMovieList } from 'src/components/list-context/index.js';
+
+const MAX_DISPLAYED_MOVIES = 5;
 
 export default function SearchPage() {
   const [searchTerm, setSearchTerm] = useState('');
-  const { moveMovieToList, lists } = useMovieList(); // Use the movie list context hook
+  const [displayedMovies, setDisplayedMovies] = useState(MAX_DISPLAYED_MOVIES);
+  const { moveMovieToList, lists } = useMovieList();
 
   const filteredMovies = searchTerm
     ? MOVIES.filter((movie) =>
@@ -15,8 +18,15 @@ export default function SearchPage() {
       )
     : MOVIES;
 
+  const moviesToShow = filteredMovies.slice(0, displayedMovies);
+
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
+    setDisplayedMovies(MAX_DISPLAYED_MOVIES); // Reset displayed movies when search changes
+  };
+
+  const handleLoadMore = () => {
+    setDisplayedMovies(prevCount => prevCount + MAX_DISPLAYED_MOVIES);
   };
 
   return (
@@ -39,15 +49,22 @@ export default function SearchPage() {
           sx={{ mb: 3 }}
         />
 
-        {filteredMovies.length > 0 ? (
-          <MovieList
-            movies={filteredMovies}
-            onMoveMovieToList={moveMovieToList} // Pass the moveMovieToList function
-            lists={lists}
-          />
+        {moviesToShow.length > 0 ? (
+          <>
+            <MovieList
+              movies={moviesToShow}
+              onMoveMovieToList={moveMovieToList}
+              lists={lists}
+            />
+            {filteredMovies.length > displayedMovies && (
+              <Button onClick={handleLoadMore} sx={{ mt: 2 }}>
+                Load More
+              </Button>
+            )}
+          </>
         ) : (
           <Typography variant="h6">
-            No hay películas que coincidan con tu búsqueda
+            No movies match your search
           </Typography>
         )}
       </Container>
