@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Container, Typography, TextField, Button, CircularProgress, Stack } from '@mui/material';
+import { Container, Typography, TextField, Button, CircularProgress, Stack, LinearProgress } from '@mui/material';
 import { MovieList } from '../sections/@dashboard/movies';
 import getMoviesAndTvShows from '../api/getMoviesAndTvShow.api';
 import searchMoviesAndTvShows from '../api/getSearchMovieAndTvShow.api';
@@ -110,7 +110,7 @@ export default function SearchPage() {
         </Stack>
 
         {isLoading ? (
-          <CircularProgress />
+          <LinearProgress />
         ) : itemsToShow.length > 0 ? (
           <>
             <MovieList

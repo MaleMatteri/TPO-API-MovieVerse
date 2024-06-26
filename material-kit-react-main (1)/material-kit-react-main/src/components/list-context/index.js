@@ -12,7 +12,7 @@ export const MovieListProvider = ({ children }) => {
 
   useEffect(() => {
     const initialLists = {
-      watching: movies.slice(0, 5), // Take the first 5 movies from the movies list
+      watching: [], 
       watched: [],
       favorites: [],
     };
