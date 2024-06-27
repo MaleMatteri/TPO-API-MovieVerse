@@ -17,7 +17,7 @@ export const MovieListProvider = ({ children }) => {
         const userData = await getUserByToken(token);
         const userId = userData._id;
         const movieLists = await getUserMovieLists(token);
-        console.log('Fetched movie lists:', movieLists); // Log the fetched movie lists
+        console.log('Estas son las listas', movieLists); // Log the fetched movie lists
 
         if (!Array.isArray(movieLists.lists)) {
           console.error('Expected an array but received:', movieLists);
@@ -33,6 +33,7 @@ export const MovieListProvider = ({ children }) => {
           return acc;
         }, {});
         setLists(transformedLists);
+        console.log('Transformed lists:', transformedLists);
       } catch (error) {
         console.error('Error fetching lists:', error);
       }

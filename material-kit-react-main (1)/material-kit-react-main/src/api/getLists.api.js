@@ -10,7 +10,7 @@ const getUserLists = async (token) => {
     };
   
     try {
-      let response = await fetch("http://localhost:4000/api/users/userByToken", requestOptions);
+      let response = await fetch("http://localhost:4000/api/movielists/lists", requestOptions);
       let jsonData = await response.json();
       console.log('Response data:', jsonData); // Add this line to log the response
       return jsonData;
