@@ -1,12 +1,11 @@
-// NewMovieCard.js
-
 import React from 'react';
 import { Card, Box, Typography, Stack } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import StarIcon from '@mui/icons-material/Star';
-import SelectVariants from 'src/components/button-dropdown/index.js'; // Adjust the path as needed
-import Swal from 'sweetalert2'; // Import SweetAlert2
+import SelectVariants from 'src/components/button-dropdown/index.js'; // Ajustar la ruta según sea necesario
+import Swal from 'sweetalert2'; // Importar SweetAlert2
 
+const DEFAULT_IMAGE = '/assets/images/movies/no_hay_imagen6.jpg';
 
 const StyledMovieImg = styled('img')({
   top: 0,
@@ -17,30 +16,33 @@ const StyledMovieImg = styled('img')({
 });
 
 const NewMovieCard = ({ movie, onMoveMovieToList = () => {}, listName = '', lists = [] }) => { 
-  // aca faltaba inicializar los valores de listName y lists para que si venian null o undefined no rompa
-
   const handleMoveMovieToList = (selectedList) => {
     onMoveMovieToList(selectedList, movie);
 
     if (selectedList !== 'none') {
       Swal.fire({
         title: 'Movie Added',
-        text: `${name} has been added to the "${selectedList}" list.`,
+        text: `${movie.name} has been added to the "${selectedList}" list.`,
         icon: 'success',
         confirmButtonText: 'OK',
       });
     }
   };
 
-  if (!movie) { // aca valida que movie no sea null o undefined y si es no muestra esa pelicula
+  if (!movie) {
     return null;
   }
-  const { name, cover, stars, language, type} = movie;
+
+  const { name, cover, stars, language, type } = movie;
 
   return (
     <Card>
       <Box sx={{ pt: '100%', position: 'relative' }}>
-        <StyledMovieImg alt={name} src={cover} />
+        <StyledMovieImg 
+          alt={name} 
+          src={cover || DEFAULT_IMAGE}
+          onError={(e) => { e.target.src = DEFAULT_IMAGE; }}
+        />
       </Box>
 
       <Stack spacing={2} sx={{ p: 2 }}>
@@ -52,12 +54,16 @@ const NewMovieCard = ({ movie, onMoveMovieToList = () => {}, listName = '', list
           <Typography variant="body2" sx={{ color: 'text.secondary' }}>
             Rating:
           </Typography>
-          {stars && (
+          {stars ? (
             <Box sx={{ display: 'flex', alignItems: 'center', ml: 1 }}>
               {Array.from({ length: stars }).map((_, index) => (
                 <StarIcon key={index} style={{ color: '#ffe575' }} />
               ))}
             </Box>
+          ) : (
+            <Typography variant="body2" sx={{ color: 'text.disabled', ml: 1 }}>
+              No rating available
+            </Typography>
           )}
         </Stack>
 
@@ -74,7 +80,7 @@ const NewMovieCard = ({ movie, onMoveMovieToList = () => {}, listName = '', list
             value={listName}
             onMoveMovieToList={handleMoveMovieToList}
             listNames={Object.keys(lists)}
-            lists={lists} // Pass lists prop to SelectVariants component
+            lists={lists}
           />
         </Box>
       </Stack>
@@ -83,3 +89,4 @@ const NewMovieCard = ({ movie, onMoveMovieToList = () => {}, listName = '', list
 };
 
 export default NewMovieCard;
+

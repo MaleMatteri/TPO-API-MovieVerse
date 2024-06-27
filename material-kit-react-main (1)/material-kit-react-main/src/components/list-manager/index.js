@@ -28,7 +28,7 @@ const responsive = {
   }
 };
 
-const MovieListManager = () => {
+const ListManager = () => {
   const { lists, addList, moveMovieToList } = useMovieList();
   const [moviesAndTvShows, setMoviesAndTvShows] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -134,4 +134,4 @@ const MovieListManager = () => {
   );
 };
 
-export default MovieListManager;
+export default ListManager;

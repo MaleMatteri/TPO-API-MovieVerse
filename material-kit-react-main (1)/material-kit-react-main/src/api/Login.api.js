@@ -15,7 +15,6 @@ const login = async (email,password) => {
     };
     
     let response = await fetch("http://localhost:4000/api/users/login/", requestOptions);
-    console.log('ESTA ES LA RESPONSE', response);
     let jsonData = await response.json();
 
     return jsonData;

@@ -1,13 +1,14 @@
-const createMovieList = async (title, items) => {
-    const myHeaders = new Headers();
+const createMovieList = async (token ,title) => {
+    var myHeaders = new Headers();
+    myHeaders.append("x-access-token", token);
     myHeaders.append("Content-Type", "application/json");
   
-    const raw = JSON.stringify({
-      title: title,
-      items: items
+    var raw = JSON.stringify({
+      "title": title,
+      
     });
   
-    const requestOptions = {
+    var requestOptions = {
       method: "POST",
       headers: myHeaders,
       body: raw,
@@ -16,14 +17,12 @@ const createMovieList = async (title, items) => {
     };
   
     try {
-      const response = await fetch("http://localhost:4000/api/movielists/create", requestOptions);
-      if (!response.ok) {
-        throw new Error('Network response was not ok' + response.statusText);
-      }
-      const jsonData = await response.json();
+      let response = await fetch("http://localhost:4000/api/movielists/create", requestOptions);
+      console.log(response);
+      let jsonData = await response.json();
       return jsonData;
     } catch (error) {
-      console.error('Error creating movie list:', error);
+      console.error('Error creating list:', error);
       throw error;
     }
   }

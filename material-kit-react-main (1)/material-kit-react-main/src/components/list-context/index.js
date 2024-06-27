@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
-import createMovieList from 'src/api/postCreateLists.api.js';
+import createMovieList from 'src/api/postCreateLists.api.js'; // Ajusta la ruta según sea necesario
+import getUserLists from 'src/api/getLists';
 
 const MovieListContext = createContext();
 export const useMovieList = () => {
@@ -20,6 +21,8 @@ export const MovieListProvider = ({ children }) => {
   }, []);
 
   const addList = async () => {
+    const token = sessionStorage.getItem('access-token'); // Obtener el token desde sessionStorage
+
     const { value: name } = await Swal.fire({
       title: 'Enter the name for the new list:',
       input: 'text',
@@ -37,9 +40,16 @@ export const MovieListProvider = ({ children }) => {
     if (name) {
       try {
         // Call the backend API to create the list
-        const newList = await createMovieList(name, []);
-        // Update the state with the newly created list
-        setLists(prevLists => ({ ...prevLists, [newList.title.toLowerCase()]: [] }));
+        const newList = await createMovieList(token, name); 
+        console.log('New list created:', newList);
+
+        // Actualizar el estado con la nueva lista creada
+        setLists(prevLists => ({
+          ...prevLists,
+          [name]: [], // Usando el título de la lista como clave
+        }));
+        
+        Swal.fire('Success', `List "${name}" created successfully.`, 'success');
       } catch (error) {
         console.error('Error creating movie list:', error);
         Swal.fire('Error', 'There was an error creating the list. Please try again.', 'error');

@@ -1,8 +1,11 @@
+// DashboardAppPage.js
+import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTheme } from '@mui/material/styles';
 import { Box, Container, Typography } from '@mui/material';
 import "react-multi-carousel/lib/styles.css";
-import ListManager from '../components/list-manager/index.js'; // Importa el componente ListManager
+import ListManager from '../components/list-manager/index.js';
+import { MovieListProvider } from 'src/components/list-context/index.js'; // Importa el componente MovieListProvider
 
 export default function DashboardAppPage() {
   const theme = useTheme();
@@ -22,10 +25,13 @@ export default function DashboardAppPage() {
             <Typography variant="h3" sx={{ mb: 2 }}>
               Lists
             </Typography>
-            <ListManager />
+            <MovieListProvider> {/* Envuelve ListManager con MovieListProvider */}
+              <ListManager />
+            </MovieListProvider>
           </Box>
         </Box>
       </Container>
     </>
   );
 }
+
