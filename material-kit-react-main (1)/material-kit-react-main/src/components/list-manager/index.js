@@ -70,7 +70,7 @@ const ListManager = () => {
   };
 
   const renderMovieCards = (listName) => {
-    if (lists[listName].length === 0) {
+    if (!lists[listName] || lists[listName].length === 0) {
       return (
         <div style={{ padding: '30px' }}>
           <EmptyListCard />
