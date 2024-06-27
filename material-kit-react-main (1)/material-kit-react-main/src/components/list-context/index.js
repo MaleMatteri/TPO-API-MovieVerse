@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import movies from 'src/_mock/movies.js'; // Import the movies list
 import Swal from 'sweetalert2';
+import createMovieList from 'src/api/postCreateLists.api.js';
 
 const MovieListContext = createContext();
 export const useMovieList = () => {
@@ -19,7 +19,7 @@ export const MovieListProvider = ({ children }) => {
     setLists(initialLists);
   }, []);
 
-  const addList = async (newListName) => {
+  const addList = async () => {
     const { value: name } = await Swal.fire({
       title: 'Enter the name for the new list:',
       input: 'text',
@@ -35,7 +35,15 @@ export const MovieListProvider = ({ children }) => {
     });
 
     if (name) {
-      setLists(prevLists => ({ ...prevLists, [name.toLowerCase()]: [] }));
+      try {
+        // Call the backend API to create the list
+        const newList = await createMovieList(name, []);
+        // Update the state with the newly created list
+        setLists(prevLists => ({ ...prevLists, [newList.title.toLowerCase()]: [] }));
+      } catch (error) {
+        console.error('Error creating movie list:', error);
+        Swal.fire('Error', 'There was an error creating the list. Please try again.', 'error');
+      }
     }
   };
 
