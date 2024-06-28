@@ -8,6 +8,7 @@ import EmptyListCard from '../empty-list-card';
 import { Fab } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import getMoviesAndTvShows from 'src/api/getMoviesAndTvShow.api.js';
+import addItemToList from 'src/api/addItem.api.js'; // Importa la función addItemToList
 
 const responsive = {
   superLargeDesktop: {
@@ -69,8 +70,23 @@ const ListManager = () => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
 
+  const handleAddMovieToList = async (listId, movieId, type) => {
+    const token = sessionStorage.getItem('access-token'); // Obtener el token de sessionStorage
+    console.log("llegue al metodo de agregar peliculas")
+    try {
+      const response = await addItemToList(token, listId, movieId, type);
+      console.log('Response from addItemToList:', response);
+
+      // Actualizar el estado local o volver a cargar las listas desde el servidor
+      // Esto dependerá de cómo desees manejar la actualización de las listas después de agregar un ítem.
+    } catch (error) {
+      console.error('Error adding movie to list:', error);
+      // Manejar errores según corresponda
+    }
+  };
+
   const renderMovieCards = (listName) => {
-    if (!lists[listName] || lists[listName].items.length === 0) {
+    if (!lists[listName] || lists[listName].length === 0) {
       return (
         <div style={{ padding: '30px' }}>
           <EmptyListCard />
@@ -79,13 +95,14 @@ const ListManager = () => {
     } else {
       return (
         <Carousel responsive={responsive} itemClass="carousel-item" containerClass="carousel-container">
-          {lists[listName].items.map((movie) => (
+          {lists[listName].map((movie, index) => (
             <div key={movie.id} className="movie-card-container">
               <NewMovieCard
                 movie={movie}
                 listName={listName}
                 lists={lists}
                 onMoveMovieToList={(selectedList) => moveMovieToList(selectedList, movie)}
+                onAddMovieToList={() => handleAddMovieToList(listName, movie.id, movie.type)}
               />
             </div>
           ))}
@@ -95,7 +112,7 @@ const ListManager = () => {
   };
 
   const renderFetchedMovies = () => {
-    const limitedMovies = moviesAndTvShows.slice(0, 5); // Limit to 5 movies
+    const limitedMovies = moviesAndTvShows.slice(0, 5); // Limitar a 5 películas
     return (
       <Carousel responsive={responsive} itemClass="carousel-item" containerClass="carousel-container">
         {limitedMovies.map((movie) => (
@@ -105,6 +122,7 @@ const ListManager = () => {
               listName="fetchedMovies"
               lists={lists}
               onMoveMovieToList={(selectedList) => moveMovieToList(selectedList, movie)}
+              onAddMovieToList={() => handleAddMovieToList("fetchedMovies", movie.id, movie.type)}
             />
           </div>
         ))}
