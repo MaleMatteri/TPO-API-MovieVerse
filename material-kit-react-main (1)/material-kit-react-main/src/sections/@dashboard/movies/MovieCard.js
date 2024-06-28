@@ -4,6 +4,7 @@ import { styled } from '@mui/material/styles';
 import StarIcon from '@mui/icons-material/Star';
 import SelectVariants from 'src/components/button-dropdown/index.js'; // Ajustar la ruta según sea necesario
 import Swal from 'sweetalert2'; // Importar SweetAlert2
+import addItemToList from 'src/api/addItem.api';
 
 const DEFAULT_IMAGE = '/assets/images/movies/no_hay_imagen6.jpg';
 
@@ -15,8 +16,12 @@ const StyledMovieImg = styled('img')({
   position: 'absolute',
 });
 
-const NewMovieCard = ({ movie, onMoveMovieToList = () => {}, listName = '', lists = [], onAddMovieToList }) => {
-  const handleMoveMovieToList = (selectedList) => {
+
+const NewMovieCard = ({ movie, onMoveMovieToList = () => {}, listName = '', lists = [] }) => {
+  
+  const token = sessionStorage.getItem('access-token');
+
+  const handleMoveMovieToList = async (selectedList) => {
     onMoveMovieToList(selectedList, movie);
 
     if (selectedList !== 'none') {
@@ -26,12 +31,23 @@ const NewMovieCard = ({ movie, onMoveMovieToList = () => {}, listName = '', list
         icon: 'success',
         confirmButtonText: 'OK',
       });
-    }
-  };
 
-  const handleAddToList = () => {
-    // Llama al evento onAddMovieToList que recibes como prop
-    onAddMovieToList();
+      try {
+        if (lists[selectedList] && lists[selectedList].idList) {
+          console.log('Adding item to list:', lists[selectedList].idList, movie.id, movie.type, movie.cover, movie.name, movie.stars, movie.language);
+          console.log(movie.id.toString());
+          await addItemToList(token, lists[selectedList].idList, movie.id, movie.type, movie.cover, movie.name, movie.stars, movie.language);
+          console.log('Item added to list successfully.');
+        } else {
+          console.error('List or listId not found:', lists[selectedList]);
+          // Manejar el caso donde lists[selectedList] o lists[selectedList].idList no están definidos
+        }
+      } catch (error) {
+        console.error('Error adding item to list:', error);
+        // Manejar el error al agregar el ítem a la lista
+        Swal.fire('Error', 'There was an error adding the movie to the list. Please try again.', 'error');
+      }
+    }
   };
 
   if (!movie) {
@@ -39,9 +55,10 @@ const NewMovieCard = ({ movie, onMoveMovieToList = () => {}, listName = '', list
   }
 
   const { name, cover, stars, language, type } = movie;
-
+  //console.log(movie);
   return (
     <Card>
+      
       <Box sx={{ pt: '100%', position: 'relative' }}>
         <StyledMovieImg 
           alt={name} 
@@ -60,6 +77,7 @@ const NewMovieCard = ({ movie, onMoveMovieToList = () => {}, listName = '', list
             Rating:
           </Typography>
           {stars ? (
+            console.log(stars),
             <Box sx={{ display: 'flex', alignItems: 'center', ml: 1 }}>
               {Array.from({ length: stars }).map((_, index) => (
                 <StarIcon key={index} style={{ color: '#ffe575' }} />
@@ -86,7 +104,6 @@ const NewMovieCard = ({ movie, onMoveMovieToList = () => {}, listName = '', list
             onMoveMovieToList={handleMoveMovieToList}
             listNames={Object.keys(lists)}
             lists={lists}
-            onAddMovieToList={handleAddToList}
           />
         </Box>
       </Stack>

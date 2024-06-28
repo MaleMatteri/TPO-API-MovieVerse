@@ -8,7 +8,6 @@ import EmptyListCard from '../empty-list-card';
 import { Fab } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import getMoviesAndTvShows from 'src/api/getMoviesAndTvShow.api.js';
-import addItemToList from 'src/api/addItem.api.js'; // Importa la función addItemToList
 
 const responsive = {
   superLargeDesktop: {
@@ -41,7 +40,7 @@ const ListManager = () => {
         const data = await getMoviesAndTvShows();
         const transformedMovies = data.movies.map((movie, index) => ({
           id: movie.id,
-          cover: movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : `/assets/images/movies/movie_${index + 1}.jpg`,
+          cover: movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : `/assets/images/movies/no_hay_imagen6.jpg`,
           name: movie.title,
           stars: Math.round(movie.vote_average / 2), // Transform the rating to a scale of 1 to 5
           language: movie.original_language,
@@ -49,7 +48,7 @@ const ListManager = () => {
         }));
         const transformedTvShows = data.tvShows.map((tvShow, index) => ({
           id: tvShow.id,
-          cover: tvShow.poster_path ? `https://image.tmdb.org/t/p/w500${tvShow.poster_path}` : `/assets/images/movies/movie_${index + 1}.jpg`,
+          cover: tvShow.poster_path ? `https://image.tmdb.org/t/p/w500${tvShow.poster_path}` : `/assets/images/movies/no_hay_imagen6.jpg`,
           name: tvShow.name,
           stars: Math.round(tvShow.vote_average / 2), // Transform the rating to a scale of 1 to 5
           language: tvShow.original_language,
@@ -70,23 +69,8 @@ const ListManager = () => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
 
-  const handleAddMovieToList = async (listId, movieId, type) => {
-    const token = sessionStorage.getItem('access-token'); // Obtener el token de sessionStorage
-    console.log("llegue al metodo de agregar peliculas")
-    try {
-      const response = await addItemToList(token, listId, movieId, type);
-      console.log('Response from addItemToList:', response);
-
-      // Actualizar el estado local o volver a cargar las listas desde el servidor
-      // Esto dependerá de cómo desees manejar la actualización de las listas después de agregar un ítem.
-    } catch (error) {
-      console.error('Error adding movie to list:', error);
-      // Manejar errores según corresponda
-    }
-  };
-
   const renderMovieCards = (listName) => {
-    if (!lists[listName] || lists[listName].length === 0) {
+    if (!lists[listName] || lists[listName].items.length === 0) {
       return (
         <div style={{ padding: '30px' }}>
           <EmptyListCard />
@@ -95,14 +79,13 @@ const ListManager = () => {
     } else {
       return (
         <Carousel responsive={responsive} itemClass="carousel-item" containerClass="carousel-container">
-          {lists[listName].map((movie, index) => (
+          {lists[listName].items.map((movie, index) => (
             <div key={movie.id} className="movie-card-container">
               <NewMovieCard
                 movie={movie}
                 listName={listName}
                 lists={lists}
                 onMoveMovieToList={(selectedList) => moveMovieToList(selectedList, movie)}
-                onAddMovieToList={() => handleAddMovieToList(listName, movie.id, movie.type)}
               />
             </div>
           ))}
@@ -112,8 +95,16 @@ const ListManager = () => {
   };
 
   const renderFetchedMovies = () => {
-    const limitedMovies = moviesAndTvShows.slice(0, 5); // Limitar a 5 películas
-    return (
+    console.log(moviesAndTvShows);
+    const limitedMovies = moviesAndTvShows.slice(0, 5); // Limit to 5 movies
+    if (limitedMovies.length === 0) {
+      return (
+        <div style={{ padding: '30px' }}>
+          <EmptyListCard />
+        </div>
+      );
+    } else { 
+      return (
       <Carousel responsive={responsive} itemClass="carousel-item" containerClass="carousel-container">
         {limitedMovies.map((movie) => (
           <div key={movie.id} className="movie-card-container">
@@ -122,12 +113,12 @@ const ListManager = () => {
               listName="fetchedMovies"
               lists={lists}
               onMoveMovieToList={(selectedList) => moveMovieToList(selectedList, movie)}
-              onAddMovieToList={() => handleAddMovieToList("fetchedMovies", movie.id, movie.type)}
             />
           </div>
         ))}
       </Carousel>
     );
+    }
   };
 
   return (
@@ -153,3 +144,4 @@ const ListManager = () => {
 };
 
 export default ListManager;
+
