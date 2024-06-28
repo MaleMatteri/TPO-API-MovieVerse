@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Box, Typography, Stack } from '@mui/material';
+import { Card, Box, Typography, Stack, Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import StarIcon from '@mui/icons-material/Star';
 import SelectVariants from 'src/components/button-dropdown/index.js'; // Ajustar la ruta según sea necesario
@@ -15,7 +15,7 @@ const StyledMovieImg = styled('img')({
   position: 'absolute',
 });
 
-const NewMovieCard = ({ movie, onMoveMovieToList = () => {}, listName = '', lists = [] }) => { 
+const NewMovieCard = ({ movie, onMoveMovieToList = () => {}, listName = '', lists = [], onAddMovieToList }) => {
   const handleMoveMovieToList = (selectedList) => {
     onMoveMovieToList(selectedList, movie);
 
@@ -27,6 +27,11 @@ const NewMovieCard = ({ movie, onMoveMovieToList = () => {}, listName = '', list
         confirmButtonText: 'OK',
       });
     }
+  };
+
+  const handleAddToList = () => {
+    // Llama al evento onAddMovieToList que recibes como prop
+    onAddMovieToList();
   };
 
   if (!movie) {
@@ -81,6 +86,7 @@ const NewMovieCard = ({ movie, onMoveMovieToList = () => {}, listName = '', list
             onMoveMovieToList={handleMoveMovieToList}
             listNames={Object.keys(lists)}
             lists={lists}
+            onAddMovieToList={handleAddToList}
           />
         </Box>
       </Stack>
@@ -89,4 +95,3 @@ const NewMovieCard = ({ movie, onMoveMovieToList = () => {}, listName = '', list
 };
 
 export default NewMovieCard;
-

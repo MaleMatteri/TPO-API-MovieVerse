@@ -10,7 +10,7 @@ const addItemToList = async (token, listId, itemId, type) => {
     });
 
     var requestOptions = {
-    method: "PUT",
+    method: "POST",
     headers: myHeaders,
     body: raw,
     redirect: "follow"
