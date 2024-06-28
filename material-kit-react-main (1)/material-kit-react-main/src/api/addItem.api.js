@@ -1,19 +1,26 @@
-const addItemToList = async (token, listId, itemId, type) => {
+const addItemToList = async (token, listId, itemID, type) => {
     var myHeaders = new Headers();
     myHeaders.append("x-access-token", token);
     myHeaders.append("Content-Type", "application/json");
 
+    if (type === 'Movie') {
+        type = 'movie';
+    } else {
+        type = 'tv';
+    }
+
     var raw = JSON.stringify({
-    "listId": listId,
-    "tmdbId": itemId,
+    "listId": listId.toString(),
+    "tmdbId": itemID.toString(),
     "type": type
     });
 
     var requestOptions = {
-    method: "POST",
+    method: "PUT",
     headers: myHeaders,
     body: raw,
-    redirect: "follow"
+    redirect: "follow",
+    credentials: "include" 
     };
 
     try {

@@ -3,6 +3,7 @@ import Swal from 'sweetalert2';
 import createMovieList from 'src/api/postCreateLists.api.js';
 import getUserByToken from 'src/api/getUserByToken.api.js';
 import getUserMovieLists from 'src/api/getLists.api'; 
+import { Language } from '@mui/icons-material';
 
 const MovieListContext = createContext();
 export const useMovieList = () => useContext(MovieListContext);
@@ -12,12 +13,12 @@ export const MovieListProvider = ({ children }) => {
 
   useEffect(() => {
     const fetchLists = async () => {
-      const token = sessionStorage.getItem('access-token'); // Get the token from sessionStorage
+      const token = sessionStorage.getItem('access-token');
       try {
         const userData = await getUserByToken(token);
         const userId = userData._id;
         const movieLists = await getUserMovieLists(token);
-        console.log('Estas son las listas', movieLists); // Log the fetched movie lists
+        console.log('Estas son las listas', movieLists);
 
         if (!Array.isArray(movieLists.lists)) {
           console.error('Expected an array but received:', movieLists);
@@ -25,15 +26,20 @@ export const MovieListProvider = ({ children }) => {
         }
 
         const transformedLists = movieLists.lists.reduce((acc, list) => {
-          acc[list.title.toLowerCase()] = list.items.map(item => ({
-            id: item.itemId._id, // Assuming itemId is the reference ID field in your schema
-            type: item.type,
-            // Add other necessary fields from your item schema
-          }));
+          acc[list.title.toLowerCase()] = {
+            idList: list._id,
+            items: list.items.map(item => ({
+              id: item._id,
+              type: item.type,
+              
+            }))
+          };
           return acc;
         }, {});
+
+        console.log('Estas son las listas transformadas', transformedLists);
         setLists(transformedLists);
-        console.log('Transformed lists:', transformedLists);
+
       } catch (error) {
         console.error('Error fetching lists:', error);
       }
@@ -43,7 +49,7 @@ export const MovieListProvider = ({ children }) => {
   }, []);
 
   const addList = async () => {
-    const token = sessionStorage.getItem('access-token'); // Get the token from sessionStorage
+    const token = sessionStorage.getItem('access-token');
 
     const { value: name } = await Swal.fire({
       title: 'Enter the name for the new list:',
@@ -61,16 +67,17 @@ export const MovieListProvider = ({ children }) => {
 
     if (name) {
       try {
-        // Call the backend API to create the list
-        const newList = await createMovieList(token, name); 
+        const newList = await createMovieList(token, name);
         console.log('New list created:', newList);
 
-        // Update the state with the newly created list
         setLists(prevLists => ({
           ...prevLists,
-          [name.toLowerCase()]: [], // Use the list title as the key
+          [name.toLowerCase()]: {
+            idList: newList._id,
+            items: [],
+          }
         }));
-        
+
         Swal.fire('Success', `List "${name}" created successfully.`, 'success');
       } catch (error) {
         console.error('Error creating movie list:', error);
@@ -80,23 +87,24 @@ export const MovieListProvider = ({ children }) => {
   };
 
   const moveMovieToList = (listName, movie) => {
-    if (listName === 'none') {
-      const newList = { ...lists };
-      Object.keys(newList).forEach(key => {
-        newList[key] = newList[key].filter(m => m.id !== movie.id);
-      });
-      setLists(newList);
-      return;
+    const newList = { ...lists };
+
+    // Remove the movie from any existing lists
+    Object.keys(newList).forEach(key => {
+      newList[key].items = newList[key].items.filter(m => m.id !== movie.id);
+    });
+
+    // If the movie should be moved to a specific list, add it there
+    if (listName !== 'none') {
+      newList[listName].items = [...newList[listName].items, movie];
     }
 
-    // Otherwise, add the movie to the selected list
-    const newList = { ...lists };
-    Object.keys(newList).forEach(key => {
-      newList[key] = newList[key].filter(m => m.id !== movie.id);
-    });
-    newList[listName] = [...newList[listName], movie];
     setLists(newList);
   };
+
+  if (Object.keys(lists).length === 0) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <MovieListContext.Provider value={{ lists, addList, moveMovieToList }}>
