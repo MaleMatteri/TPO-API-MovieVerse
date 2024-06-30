@@ -18,7 +18,7 @@ export const MovieListProvider = ({ children }) => {
     const fetchLists = async () => {
       const token = sessionStorage.getItem('access-token'); // Obtener el token de sessionStorage
       if (!token) {
-        sessionStorage.setItem('access-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2N2YwNDhlNDI5ODIzZDBmYzI3NTlhMSIsImlhdCI6MTcxOTYwMTA1MywiZXhwIjoxNzE5Njg3NDUzfQ.9W5K_RpqUCh_j3e_oj4mGQ3KWjgzQE1MCM9thbOLQAw'); // Establecer un token de prueba
+        sessionStorage.setItem('access-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2N2YwNDhlNDI5ODIzZDBmYzI3NTlhMSIsImlhdCI6MTcxOTc2ODUwMSwiZXhwIjoxNzE5ODU0OTAxfQ.P1qxEMQNa_VjdBInpDNuKoO8Jb0KG7SZFuiA5DC76GM'); // Establecer un token de prueba
         setError('No access token found !!');
         setLoading(false);
         return;
@@ -26,7 +26,6 @@ export const MovieListProvider = ({ children }) => {
 
       try {
         const userData = await getUserByToken(token);
-        const userId = userData._id;
         const movieLists = await getUserMovieLists(token);
         console.log('Estas son las listas', movieLists); // Registrar las listas de películas obtenidas
 
@@ -46,7 +45,7 @@ export const MovieListProvider = ({ children }) => {
                 id: itemDetails.id,
                 type: item.type,
                 cover: itemDetails.poster_path ? `https://image.tmdb.org/t/p/w500${itemDetails.poster_path}` : `/assets/images/movies/no_hay_imagen6.jpg`,
-                name: itemDetails.original_title,
+                name: item.type === 'movie' ? itemDetails.original_title : itemDetails.original_name,
                 stars: Math.round(itemDetails.vote_average / 2),
                 language: itemDetails.original_language,
               };

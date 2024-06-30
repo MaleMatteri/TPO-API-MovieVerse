@@ -2,12 +2,6 @@ const addItemToList = async (token, listId, itemId, type) => {
     var myHeaders = new Headers();
     myHeaders.append("x-access-token", token);
     myHeaders.append("Content-Type", "application/json");
-
-    if (type === 'TV Show') {
-        type = 'tv';
-    } else if (type === 'Movie'){
-        type = 'movie';
-    }
  
     var raw = JSON.stringify({
     "listId": listId.toString(), // Asegúrate de que sea una cadena

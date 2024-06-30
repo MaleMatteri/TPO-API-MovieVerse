@@ -41,18 +41,18 @@ const ListManager = () => {
         const transformedMovies = data.movies.map((movie, index) => ({
           id: movie.id,
           cover: movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : `/assets/images/movies/no_hay_imagen6.jpg`,
-          name: movie.title,
+          name: movie.original_title,
           stars: Math.round(movie.vote_average / 2), // Transform the rating to a scale of 1 to 5
           language: movie.original_language,
-          type: 'Movie',
+          type: 'movie',
         }));
         const transformedTvShows = data.tvShows.map((tvShow, index) => ({
           id: tvShow.id,
           cover: tvShow.poster_path ? `https://image.tmdb.org/t/p/w500${tvShow.poster_path}` : `/assets/images/movies/no_hay_imagen6.jpg`,
-          name: tvShow.name,
+          name: tvShow.original_name,
           stars: Math.round(tvShow.vote_average / 2), // Transform the rating to a scale of 1 to 5
           language: tvShow.original_language,
-          type: 'TV Show',
+          type: 'tv',
         }));
         setMoviesAndTvShows([...transformedMovies, ...transformedTvShows]);
       } catch (error) {

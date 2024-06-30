@@ -27,7 +27,7 @@ export default function SearchPage() {
           name: movie.title,
           stars: Math.round(movie.vote_average / 2),
           language: movie.original_language,
-          type: 'Movie',
+          type: 'movie',
         }));
         const transformedTvShows = data.tvShows.map((tvShow, index) => ({
           id: tvShow.id,
@@ -35,7 +35,7 @@ export default function SearchPage() {
           name: tvShow.name,
           stars: Math.round(tvShow.vote_average / 2),
           language: tvShow.original_language,
-          type: 'TV Show',
+          type: 'tv',
         }));
         setMoviesAndTvShows([...transformedMovies, ...transformedTvShows]);
         setDisplayedItems(MAX_DISPLAYED_ITEMS);
@@ -65,12 +65,12 @@ export default function SearchPage() {
         name: item.title || item.name,
         stars: Math.round((item.vote_average || 0) / 2),
         language: item.original_language,
-        type: item.media_type === 'movie' ? 'Movie' : 'TV Show',
+        type: item.media_type === 'movie' ? 'movie' : 'tv',
       }));
       setSearchResults(transformedResults);
       setDisplayedItems(MAX_DISPLAYED_ITEMS);
     } catch (error) {
-      console.error('Error searching movies and TV shows:', error);
+      console.error('Error searching Movies and TV Shows:', error);
     } finally {
       setIsLoading(false);
     }
@@ -97,7 +97,7 @@ export default function SearchPage() {
         <Stack direction="row" spacing={2} sx={{ mb: 3 }}>
           <TextField
             fullWidth
-            label="Search movies and TV shows"
+            label="Search Movies and TV shows"
             variant="outlined"
             value={searchTerm}
             onChange={handleSearchChange}

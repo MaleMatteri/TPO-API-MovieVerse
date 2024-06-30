@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Box, Typography, Stack, Button } from '@mui/material';
+import { Card, Box, Typography, Stack } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import StarIcon from '@mui/icons-material/Star';
 import SelectVariants from 'src/components/button-dropdown/index.js'; // Ajustar la ruta según sea necesario
@@ -16,28 +16,35 @@ const StyledMovieImg = styled('img')({
   position: 'absolute',
 });
 
-
 const NewMovieCard = ({ movie, onMoveMovieToList = () => {}, listName = '', lists = [] }) => {
   
   const token = sessionStorage.getItem('access-token');
 
   const handleMoveMovieToList = async (selectedList) => {
-    onMoveMovieToList(selectedList, movie);
-
     if (selectedList !== 'none') {
-      Swal.fire({
-        title: 'Movie Added',
-        text: `${movie.name} has been added to the "${selectedList}" list.`,
-        icon: 'success',
-        confirmButtonText: 'OK',
-      });
-
       try {
         if (lists[selectedList] && lists[selectedList].idList) {
-          console.log('Adding item to list:', lists[selectedList].idList, movie.id, movie.type, movie.cover, movie.name, movie.stars, movie.language);
+          console.log('Adding item to list:', lists[selectedList].idList, movie.id, movie.type);
           console.log(movie.id.toString());
-          await addItemToList(token, lists[selectedList].idList, movie.id, movie.type, movie.cover, movie.name, movie.stars, movie.language);
-          console.log('Item added to list successfully.');
+          const response = await addItemToList(token, lists[selectedList].idList, movie.id, movie.type);
+          
+          if (response.alreadyExists) {
+            Swal.fire({
+              title: 'Item Already Exists',
+              text: `${movie.name} is already in the "${selectedList}" list.`,
+              icon: 'info',
+              confirmButtonText: 'OK',
+            });
+          } else {
+            Swal.fire({
+              title: 'Item Added',
+              text: `${movie.name} has been added to the "${selectedList}" list.`,
+              icon: 'success',
+              confirmButtonText: 'OK',
+            });
+            onMoveMovieToList(selectedList, movie); // Mover película solo si se agregó exitosamente
+          }
+          
         } else {
           console.error('List or listId not found:', lists[selectedList]);
           // Manejar el caso donde lists[selectedList] o lists[selectedList].idList no están definidos
@@ -112,3 +119,4 @@ const NewMovieCard = ({ movie, onMoveMovieToList = () => {}, listName = '', list
 };
 
 export default NewMovieCard;
+
