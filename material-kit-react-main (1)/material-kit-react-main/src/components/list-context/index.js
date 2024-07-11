@@ -1,9 +1,9 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; // Importa useNavigate para manejar la redirección
 import Swal from 'sweetalert2';
 import createMovieList from 'src/api/postCreateLists.api.js';
 import getUserByToken from 'src/api/getUserByToken.api.js';
 import getUserMovieLists from 'src/api/getLists.api'; 
-import { Language } from '@mui/icons-material';
 import searchContentByIdAndType from 'src/api/itemDetails.api.js';
 
 const MovieListContext = createContext();
@@ -13,14 +13,15 @@ export const MovieListProvider = ({ children }) => {
   const [lists, setLists] = useState(null); // Cambiado a null para diferenciar entre no cargado y vacío
   const [loading, setLoading] = useState(true); // Nuevo estado para el estado de carga
   const [error, setError] = useState(null); // Nuevo estado para manejar errores
+  const navigate = useNavigate(); // Instancia useNavigate para manejar la redirección
 
   useEffect(() => {
     const fetchLists = async () => {
       const token = sessionStorage.getItem('access-token'); // Obtener el token de sessionStorage
       if (!token) {
-        sessionStorage.setItem('access-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2N2YwNDhlNDI5ODIzZDBmYzI3NTlhMSIsImlhdCI6MTcxOTc2ODUwMSwiZXhwIjoxNzE5ODU0OTAxfQ.P1qxEMQNa_VjdBInpDNuKoO8Jb0KG7SZFuiA5DC76GM'); // Establecer un token de prueba
-        setError('No access token found !!');
         setLoading(false);
+        setError('No access token found !!');
+        navigate('/login'); // Redirigir al login si no hay token
         return;
       }
 
@@ -39,8 +40,7 @@ export const MovieListProvider = ({ children }) => {
             try {
               const itemDetails = await searchContentByIdAndType(item.tmdbId, item.type); // Paso 2
               console.log('Item details:', itemDetails);
-              
-              // Paso 4: Actualiza el objeto de cada ítem aquí con la información de itemDetails si es necesario
+
               return {
                 id: itemDetails.id,
                 type: item.type,
@@ -51,21 +51,20 @@ export const MovieListProvider = ({ children }) => {
               };
             } catch (error) {
               console.error('Error fetching item details:', error);
-              // Manejar el error o retornar el ítem sin modificar
               return item;
             }
           });
-        
+
           const itemsDetails = await Promise.all(itemsDetailsPromises); // Paso 3
-        
+
           acc[list.title.toLowerCase()] = {
             idList: list._id,
             items: itemsDetails
           };
-        
+
           return acc;
         }, Promise.resolve({}));
-        
+
         console.log('Estas son las listas transformadas', transformedLists);
         setLists(transformedLists);
 
@@ -77,8 +76,14 @@ export const MovieListProvider = ({ children }) => {
       }
     };
 
-    fetchLists();
-  }, []);
+    const token = sessionStorage.getItem('access-token');
+    if (token) {
+      fetchLists();
+    } else {
+      setLoading(false);
+      navigate('/login'); // Redirigir al login si no hay token
+    }
+  }, [navigate]);
 
   const addList = async () => {
     const token = sessionStorage.getItem('access-token'); // Obtener el token de sessionStorage
@@ -160,3 +165,4 @@ export const MovieListProvider = ({ children }) => {
     </MovieListContext.Provider>
   );
 };
+

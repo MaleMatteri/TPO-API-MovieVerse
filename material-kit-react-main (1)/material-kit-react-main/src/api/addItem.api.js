@@ -4,7 +4,7 @@ const addItemToList = async (token, listId, itemId, type) => {
     myHeaders.append("Content-Type", "application/json");
  
     var raw = JSON.stringify({
-    "listId": listId.toString(), // Asegúrate de que sea una cadena
+    "listId": listId.toString(),
     "tmdbId": itemId.toString(), 
     "type": type
     });

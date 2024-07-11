@@ -2,8 +2,8 @@ import React from 'react';
 import { Card, Box, Typography, Stack } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import StarIcon from '@mui/icons-material/Star';
-import SelectVariants from 'src/components/button-dropdown/index.js'; // Ajustar la ruta según sea necesario
-import Swal from 'sweetalert2'; // Importar SweetAlert2
+import SelectVariants from 'src/components/button-dropdown/index.js'; 
+import Swal from 'sweetalert2'; 
 import addItemToList from 'src/api/addItem.api';
 
 const DEFAULT_IMAGE = '/assets/images/movies/no_hay_imagen6.jpg';
@@ -24,8 +24,6 @@ const NewMovieCard = ({ movie, onMoveMovieToList = () => {}, listName = '', list
     if (selectedList !== 'none') {
       try {
         if (lists[selectedList] && lists[selectedList].idList) {
-          console.log('Adding item to list:', lists[selectedList].idList, movie.id, movie.type);
-          console.log(movie.id.toString());
           const response = await addItemToList(token, lists[selectedList].idList, movie.id, movie.type);
           
           if (response.alreadyExists) {
