@@ -29,7 +29,7 @@ const responsive = {
 };
 
 const ListManager = () => {
-  const { lists, addList, moveMovieToList } = useMovieList();
+  const { lists, addList, moveMovieToList, removeMovieFromList } = useMovieList();
   const [moviesAndTvShows, setMoviesAndTvShows] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -38,19 +38,19 @@ const ListManager = () => {
       setIsLoading(true);
       try {
         const data = await getMoviesAndTvShows();
-        const transformedMovies = data.movies.map((movie, index) => ({
+        const transformedMovies = data.movies.map((movie) => ({
           id: movie.id,
           cover: movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : `/assets/images/movies/no_hay_imagen6.jpg`,
           name: movie.original_title,
-          stars: Math.round(movie.vote_average / 2), // Transform the rating to a scale of 1 to 5
+          stars: Math.round(movie.vote_average / 2),
           language: movie.original_language,
-          type: 'movie',
+          type: 'movie'
         }));
-        const transformedTvShows = data.tvShows.map((tvShow, index) => ({
+        const transformedTvShows = data.tvShows.map((tvShow) => ({
           id: tvShow.id,
           cover: tvShow.poster_path ? `https://image.tmdb.org/t/p/w500${tvShow.poster_path}` : `/assets/images/movies/no_hay_imagen6.jpg`,
           name: tvShow.original_name,
-          stars: Math.round(tvShow.vote_average / 2), // Transform the rating to a scale of 1 to 5
+          stars: Math.round(tvShow.vote_average / 2),
           language: tvShow.original_language,
           type: 'tv',
         }));
@@ -64,6 +64,10 @@ const ListManager = () => {
 
     fetchData();
   }, []);
+
+  const handleDeleteMovie = (listName, movieId) => {
+    removeMovieFromList(listName, movieId);
+  };
 
   const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -79,13 +83,14 @@ const ListManager = () => {
     } else {
       return (
         <Carousel responsive={responsive} itemClass="carousel-item" containerClass="carousel-container">
-          {lists[listName].items.map((movie, index) => (
+          {lists[listName].items.map((movie) => (
             <div key={movie.id} className="movie-card-container">
               <NewMovieCard
                 movie={movie}
                 listName={listName}
                 lists={lists}
                 onMoveMovieToList={(selectedList) => moveMovieToList(selectedList, movie)}
+                onDeleteMovie={handleDeleteMovie}
               />
             </div>
           ))}
@@ -95,7 +100,6 @@ const ListManager = () => {
   };
 
   const renderFetchedMovies = () => {
-    console.log(moviesAndTvShows);
     const limitedMovies = moviesAndTvShows.slice(0, 5); // Limit to 5 movies
     if (limitedMovies.length === 0) {
       return (
@@ -105,19 +109,19 @@ const ListManager = () => {
       );
     } else { 
       return (
-      <Carousel responsive={responsive} itemClass="carousel-item" containerClass="carousel-container">
-        {limitedMovies.map((movie) => (
-          <div key={movie.id} className="movie-card-container">
-            <NewMovieCard
-              movie={movie}
-              listName="fetchedMovies"
-              lists={lists}
-              onMoveMovieToList={(selectedList) => moveMovieToList(selectedList, movie)}
-            />
-          </div>
-        ))}
-      </Carousel>
-    );
+        <Carousel responsive={responsive} itemClass="carousel-item" containerClass="carousel-container">
+          {limitedMovies.map((movie) => (
+            <div key={movie.id} className="movie-card-container">
+              <NewMovieCard
+                movie={movie}
+                listName="fetchedMovies"
+                lists={lists}
+                onMoveMovieToList={(selectedList) => moveMovieToList(selectedList, movie)}
+              />
+            </div>
+          ))}
+        </Carousel>
+      );
     }
   };
 
@@ -144,4 +148,3 @@ const ListManager = () => {
 };
 
 export default ListManager;
-

@@ -1,10 +1,12 @@
 import React from 'react';
-import { Card, Box, Typography, Stack } from '@mui/material';
+import { Card, Box, Typography, Stack, IconButton } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { styled } from '@mui/material/styles';
 import StarIcon from '@mui/icons-material/Star';
 import SelectVariants from 'src/components/button-dropdown/index.js'; 
 import Swal from 'sweetalert2'; 
 import addItemToList from 'src/api/addItem.api';
+import deleteItemFromList from 'src/api/deleteItem.api.js'; 
 
 const DEFAULT_IMAGE = '/assets/images/movies/no_hay_imagen6.jpg';
 
@@ -55,6 +57,28 @@ const NewMovieCard = ({ movie, onMoveMovieToList = () => {}, listName = '', list
     }
   };
 
+  const handleDeleteMovie = async () => {
+    if (listName !== 'fetchedMovies' && lists[listName] && lists[listName].idList) {
+      try {
+        console.log("Obj: " +  movie.id);
+        console.log("List: " + lists[listName].idList);
+        const response = await deleteItemFromList(token, lists[listName].idList, movie.id);
+        if (response.updatedList) {
+          Swal.fire({
+            title: 'Item Deleted',
+            text: `${movie.name} has been removed from the "${listName}" list.`,
+            icon: 'success',
+            confirmButtonText: 'OK',
+          });
+          //onDeleteMovie(listName, movie.id); // Correct function call
+        }
+      } catch (error) {
+        console.error('Error deleting item from list:', error);
+        Swal.fire('Error', 'There was an error deleting the movie from the list. Please try again.', 'error');
+      }
+    }
+  };
+  
   if (!movie) {
     return null;
   }
@@ -103,13 +127,18 @@ const NewMovieCard = ({ movie, onMoveMovieToList = () => {}, listName = '', list
           Type: {type}
         </Typography>
 
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <SelectVariants
             value={listName}
             onMoveMovieToList={handleMoveMovieToList}
             listNames={Object.keys(lists)}
             lists={lists}
           />
+          {listName !== 'fetchedMovies' && (
+            <IconButton onClick={handleDeleteMovie} color="error" size="small">
+              <DeleteIcon />
+            </IconButton>
+          )}
         </Box>
       </Stack>
     </Card>
