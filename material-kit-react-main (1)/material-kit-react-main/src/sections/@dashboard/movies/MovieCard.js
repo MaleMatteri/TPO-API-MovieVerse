@@ -18,7 +18,7 @@ const StyledMovieImg = styled('img')({
   position: 'absolute',
 });
 
-const NewMovieCard = ({ movie, onMoveMovieToList = () => {}, listName = '', lists = [] }) => {
+const NewMovieCard = ({ movie, onMoveMovieToList = () => {}, listName = '', lists = [], onDeleteMovie = () => {} }) => {
   
   const token = sessionStorage.getItem('access-token');
 
@@ -60,8 +60,6 @@ const NewMovieCard = ({ movie, onMoveMovieToList = () => {}, listName = '', list
   const handleDeleteMovie = async () => {
     if (listName !== 'fetchedMovies' && lists[listName] && lists[listName].idList) {
       try {
-        console.log("Obj: " +  movie.id);
-        console.log("List: " + lists[listName].idList);
         const response = await deleteItemFromList(token, lists[listName].idList, movie.id);
         if (response.updatedList) {
           Swal.fire({
@@ -70,7 +68,7 @@ const NewMovieCard = ({ movie, onMoveMovieToList = () => {}, listName = '', list
             icon: 'success',
             confirmButtonText: 'OK',
           });
-          //onDeleteMovie(listName, movie.id); // Correct function call
+          onDeleteMovie(listName, movie.id); // Call the onDeleteMovie prop
         }
       } catch (error) {
         console.error('Error deleting item from list:', error);

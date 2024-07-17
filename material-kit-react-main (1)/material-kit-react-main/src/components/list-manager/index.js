@@ -90,7 +90,7 @@ const ListManager = () => {
                 listName={listName}
                 lists={lists}
                 onMoveMovieToList={(selectedList) => moveMovieToList(selectedList, movie)}
-                onDeleteMovie={handleDeleteMovie}
+                onDeleteMovie={handleDeleteMovie}  
               />
             </div>
           ))}

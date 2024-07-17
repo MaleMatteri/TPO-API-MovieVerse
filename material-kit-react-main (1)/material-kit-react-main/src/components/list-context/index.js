@@ -147,6 +147,16 @@ export const MovieListProvider = ({ children }) => {
     setLists(newList);
   };
 
+  const removeMovieFromList = (listName, movieId) => {
+    setLists(prevLists => {
+      const updatedList = { ...prevLists };
+      if (updatedList[listName]) {
+        updatedList[listName].items = updatedList[listName].items.filter(movie => movie.id !== movieId);
+      }
+      return updatedList;
+    });
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -160,7 +170,7 @@ export const MovieListProvider = ({ children }) => {
   }
 
   return (
-    <MovieListContext.Provider value={{ lists, addList, moveMovieToList }}>
+    <MovieListContext.Provider value={{ lists, addList, moveMovieToList, removeMovieFromList }}>
       {children}
     </MovieListContext.Provider>
   );
