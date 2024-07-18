@@ -8,6 +8,7 @@ const MENU_OPTIONS = [
   {
     label: 'Home',
     icon: 'eva:home-fill',
+    path: '/dashboard/app',
   }
 ];
 
@@ -16,7 +17,7 @@ export default function AccountPopover() {
   const [user, setUser] = useState({
     displayName: '',
     email: '',
-    photoURL: '/assets/images/avatars/avatar_4.jpg', // Debes obtener la URL de la imagen del usuario si está disponible
+    photoURL: '/assets/images/avatars/avatar_4.jpg',
   });
   const navigate = useNavigate();
   const accessToken = sessionStorage.getItem('access-token');
@@ -30,7 +31,12 @@ export default function AccountPopover() {
   };
 
   const handleLogout = () => {
-    navigate('/login'); // Redirige a la página de inicio de sesión
+    navigate('/login');
+  };
+
+  const handleMenuItemClick = (path) => {
+    navigate(path);
+    handleClose();
   };
 
   useEffect(() => {
@@ -42,7 +48,7 @@ export default function AccountPopover() {
             setUser({
               displayName: `${response.data.name} ${response.data.surname}`,
               email: response.data.email,
-              photoURL: '/assets/images/avatars/avatar_default.jpg', // Debes obtener la URL de la imagen del usuario si está disponible
+              photoURL: '/assets/images/avatars/avatar_default.jpg',
             });
           } else {
             console.log('Error:', response.message);
@@ -110,7 +116,7 @@ export default function AccountPopover() {
 
         <Stack sx={{ p: 1 }}>
           {MENU_OPTIONS.map((option) => (
-            <MenuItem key={option.label} onClick={handleClose}>
+            <MenuItem key={option.label} onClick={() => handleMenuItemClick(option.path)}>
               {option.label}
             </MenuItem>
           ))}
