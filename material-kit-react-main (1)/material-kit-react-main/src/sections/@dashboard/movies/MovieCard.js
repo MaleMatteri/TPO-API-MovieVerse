@@ -42,16 +42,14 @@ const NewMovieCard = ({ movie, onMoveMovieToList = () => {}, listName = '', list
               icon: 'success',
               confirmButtonText: 'OK',
             });
-            onMoveMovieToList(selectedList, movie); // Mover película solo si se agregó exitosamente
+            onMoveMovieToList(selectedList, movie, false); // Add false parameter to indicate not to remove from other lists
           }
           
         } else {
           console.error('List or listId not found:', lists[selectedList]);
-          // Manejar el caso donde lists[selectedList] o lists[selectedList].idList no están definidos
         }
       } catch (error) {
         console.error('Error adding item to list:', error);
-        // Manejar el error al agregar el ítem a la lista
         Swal.fire('Error', 'There was an error adding the movie to the list. Please try again.', 'error');
       }
     }

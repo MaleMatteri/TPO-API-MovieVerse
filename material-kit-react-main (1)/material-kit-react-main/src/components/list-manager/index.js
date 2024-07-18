@@ -89,7 +89,7 @@ const ListManager = () => {
                 movie={movie}
                 listName={listName}
                 lists={lists}
-                onMoveMovieToList={(selectedList) => moveMovieToList(selectedList, movie)}
+                onMoveMovieToList={(selectedList) => moveMovieToList(selectedList, movie, false)}
                 onDeleteMovie={handleDeleteMovie}  
               />
             </div>
@@ -116,7 +116,7 @@ const ListManager = () => {
                 movie={movie}
                 listName="fetchedMovies"
                 lists={lists}
-                onMoveMovieToList={(selectedList) => moveMovieToList(selectedList, movie)}
+                onMoveMovieToList={(selectedList) => moveMovieToList(selectedList, movie, false)}
               />
             </div>
           ))}

@@ -115,7 +115,7 @@ export default function SearchPage() {
           <>
             <MovieList
               movies={itemsToShow}
-              onMoveMovieToList={moveMovieToList}
+              onMoveMovieToList={(listName, movie) => moveMovieToList(listName, movie, false)}
               lists={lists}
             />
             {filteredItems.length > displayedItems && (

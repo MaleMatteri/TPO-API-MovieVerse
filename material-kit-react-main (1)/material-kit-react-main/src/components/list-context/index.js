@@ -106,45 +106,87 @@ export const MovieListProvider = ({ children }) => {
 
     if (name) {
       try {
-        // Llamar a la API del backend para crear la lista
         console.log('Creating list:', name);
-        const newList = await createMovieList(token, name); 
+        const newList = await createMovieList(token, name);
         console.log('New list created:', newList);
-
-        // Actualizar el estado con la nueva lista creada
+  
+        // Update the state with the new list
         setLists(prevLists => ({
           ...prevLists,
           [name.toLowerCase()]: {
             idList: newList._id,
             items: []
-          }, // Usar el título de la lista como clave
+          },
         }));
         
         Swal.fire('Success', `List "${name}" created successfully.`, 'success');
+  
+        // Fetch the updated lists from the server
+        const updatedMovieLists = await getUserMovieLists(token);
+        const transformedLists = await transformLists(updatedMovieLists.lists);
+        setLists(transformedLists);
+  
       } catch (error) {
         console.error('Error creating movie list:', error);
         Swal.fire('Error', 'There was an error creating the list. Please try again.', 'error');
       }
     }
   };
-
-  const moveMovieToList = (listName, movie) => {
-    if (listName === 'none') {
-      const newList = { ...lists };
-      Object.keys(newList).forEach(key => {
-        newList[key].items = newList[key].items.filter(m => m.id !== movie.id);
+  
+  // Add this helper function to transform the lists
+  const transformLists = async (lists) => {
+    const transformedLists = await lists.reduce(async (accPromise, list) => {
+      const acc = await accPromise;
+      const itemsDetailsPromises = list.items.map(async (item) => {
+        try {
+          const itemDetails = await searchContentByIdAndType(item.tmdbId, item.type);
+          return {
+            id: itemDetails.id,
+            type: item.type,
+            cover: itemDetails.poster_path ? `https://image.tmdb.org/t/p/w500${itemDetails.poster_path}` : `/assets/images/movies/no_hay_imagen6.jpg`,
+            name: item.type === 'movie' ? itemDetails.original_title : itemDetails.original_name,
+            stars: Math.round(itemDetails.vote_average / 2),
+            language: itemDetails.original_language,
+          };
+        } catch (error) {
+          console.error('Error fetching item details:', error);
+          return item;
+        }
       });
-      setLists(newList);
-      return;
-    }
+  
+      const itemsDetails = await Promise.all(itemsDetailsPromises);
+  
+      acc[list.title.toLowerCase()] = {
+        idList: list._id,
+        items: itemsDetails
+      };
+  
+      return acc;
+    }, Promise.resolve({}));
+  
+    return transformedLists;
+  };
 
-    // De lo contrario, añadir la película a la lista seleccionada
-    const newList = { ...lists };
-    Object.keys(newList).forEach(key => {
-      newList[key].items = newList[key].items.filter(m => m.id !== movie.id);
+  const moveMovieToList = (listName, movie, removeFromOthers = true) => {
+    setLists(prevLists => {
+      const newLists = { ...prevLists };
+      
+      // If removeFromOthers is true, remove the movie from all other lists
+      if (removeFromOthers) {
+        Object.keys(newLists).forEach(key => {
+          if (key !== listName) {
+            newLists[key].items = newLists[key].items.filter(m => m.id !== movie.id);
+          }
+        });
+      }
+      
+      // Add the movie to the selected list if it's not already there
+      if (!newLists[listName].items.some(m => m.id === movie.id)) {
+        newLists[listName].items = [...newLists[listName].items, movie];
+      }
+      
+      return newLists;
     });
-    newList[listName].items = [...newList[listName].items, movie];
-    setLists(newList);
   };
 
   const removeMovieFromList = (listName, movieId) => {
