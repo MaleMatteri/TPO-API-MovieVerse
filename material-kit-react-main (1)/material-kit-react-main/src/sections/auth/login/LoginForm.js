@@ -6,7 +6,6 @@ import Iconify from '../../../components/iconify';
 import useResponsive from '../../../hooks/useResponsive';
 import login from '../../../api/Login.api';
 
-
 // ----------------------------------------------------------------------
 
 export default function LoginForm() {
@@ -114,13 +113,13 @@ export default function LoginForm() {
           />
         </Stack>
         
-        <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
-          <Link variant="subtitle2" underline="hover">
-            Forgot password?
-          </Link>
-        </Stack>  
-
-        <LoadingButton fullWidth size="large" variant="contained" type="submit">
+        <LoadingButton 
+          fullWidth 
+          size="large" 
+          variant="contained" 
+          type="submit"
+          sx={{ marginTop: 4 }} 
+        >
           Login
         </LoadingButton>
       </form>
